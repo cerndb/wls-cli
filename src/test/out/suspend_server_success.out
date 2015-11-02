@@ -1,0 +1,21 @@
+{
+    "messages": [{
+        "message": "Suspended the server 'devITDBIMS01_A_1'.",
+        "severity": "SUCCESS"
+    }],
+    "links": [{
+        "rel": "job",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/jobs\/server\/id\/devITDBIMS01_A_1:_6_suspendWithTimeout"
+    }],
+    "item": {
+        "beginTime": 1439558757270,
+        "endTime": 1439558757373,
+        "status": "completed",
+        "operation": "suspending",
+        "description": "suspending devITDBIMS01_A_1 server ...",
+        "serverName": "devITDBIMS01_A_1",
+        "name": "_6_suspendWithTimeout",
+        "id": "devITDBIMS01_A_1:_6_suspendWithTimeout",
+        "type": "server"
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "messages": [{
+        "message": "Stopped the application 't4'.",
+        "severity": "SUCCESS"
+    }],
+    "links": [{
+        "rel": "job",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/jobs\/deployment\/id\/10"
+    }],
+    "item": {
+        "targets": [{
+            "status": "completed",
+            "errors": [],
+            "name": "AdminServer",
+            "type": "server"
+        }],
+        "beginTime": 1439560629878,
+        "endTime": 1439560630020,
+        "status": "completed",
+        "deploymentName": "t4",
+        "operation": "stop",
+        "description": "[Deployer:149026]stop application t4 on AdminServer.",
+        "name": "ADTR-10",
+        "id": "10",
+        "type": "deployment"
+    }
+}

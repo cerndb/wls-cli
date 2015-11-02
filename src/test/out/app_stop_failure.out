@@ -1,0 +1,4 @@
+{"messages": [{
+    "message": "The application 't4' cannot be stopped because it is in the 'prepared' state.",
+    "severity": "FAILURE"
+}]}

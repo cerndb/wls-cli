@@ -1,0 +1,21 @@
+{
+    "messages": [{
+        "message": "Shutdown the server 'devITDBIMS01_A_1'.",
+        "severity": "SUCCESS"
+    }],
+    "links": [{
+        "rel": "job",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/jobs\/server\/id\/devITDBIMS01_A_1:_0_shutdown"
+    }],
+    "item": {
+        "beginTime": 1439556591743,
+        "endTime": 1439556592823,
+        "status": "completed",
+        "operation": "shutdown",
+        "description": "Shutting down devITDBIMS01_A_1 server ...",
+        "serverName": "devITDBIMS01_A_1",
+        "name": "_0_shutdown",
+        "id": "devITDBIMS01_A_1:_0_shutdown",
+        "type": "server"
+    }
+}

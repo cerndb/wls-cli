@@ -1,0 +1,21 @@
+{
+    "messages": [{
+        "message": "Started the server 'devITDBIMS01_A_1'.",
+        "severity": "SUCCESS"
+    }],
+    "links": [{
+        "rel": "job",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/jobs\/server\/id\/devITDBIMS01_A_1:_1_start"
+    }],
+    "item": {
+        "beginTime": 1439556631958,
+        "endTime": 1439556660707,
+        "status": "completed",
+        "operation": "start",
+        "description": "Starting devITDBIMS01_A_1 server ...",
+        "serverName": "devITDBIMS01_A_1",
+        "name": "_1_start",
+        "id": "devITDBIMS01_A_1:_1_start",
+        "type": "server"
+    }
+}

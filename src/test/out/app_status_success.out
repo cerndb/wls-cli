@@ -1,0 +1,87 @@
+{
+    "links": [
+        {
+            "rel": "parent",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application"
+        },
+        {
+            "rel": "action",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application\/id\/t4\/redeploy",
+            "title": "redeploy"
+        },
+        {
+            "rel": "action",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application\/id\/t4\/update",
+            "title": "update"
+        },
+        {
+            "rel": "action",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application\/id\/t4\/start",
+            "title": "start"
+        },
+        {
+            "rel": "action",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application\/id\/t4\/stop",
+            "title": "stop"
+        },
+        {
+            "rel": "bindables",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application\/id\/t4\/bindables"
+        }
+    ],
+    "item": {
+        "targets": ["AdminServer"],
+        "planPath": "\/ORA\/dbs01\/syscontrol\/local\/wls\/entities\/wls_itdbims01_dev\/servers\/AdminServer\/upload\/t4\/plan\/Plan.xml",
+        "servlets": [
+            {
+                "servletName": "JspServlet",
+                "contextPath": "\/test-prt3",
+                "aggregateMetrics": {
+                    "executionTimeTotal": 0,
+                    "invocationTotalCount": 0,
+                    "reloadTotalCount": 0,
+                    "executionTimeHigh": 0,
+                    "executionTimeLow": 0
+                },
+                "servletMetrics": [{
+                    "serverName": "AdminServer",
+                    "executionTimeTotal": 0,
+                    "invocationTotalCount": 0,
+                    "reloadTotalCount": 0,
+                    "executionTimeHigh": 0,
+                    "executionTimeLow": 0
+                }]
+            },
+            {
+                "servletName": "FileServlet",
+                "contextPath": "\/test-prt3",
+                "aggregateMetrics": {
+                    "executionTimeTotal": 0,
+                    "invocationTotalCount": 0,
+                    "reloadTotalCount": 0,
+                    "executionTimeHigh": 0,
+                    "executionTimeLow": 0
+                },
+                "servletMetrics": [{
+                    "serverName": "AdminServer",
+                    "executionTimeTotal": 0,
+                    "invocationTotalCount": 0,
+                    "reloadTotalCount": 0,
+                    "executionTimeHigh": 0,
+                    "executionTimeLow": 0
+                }]
+            }
+        ],
+        "deploymentPath": "servers\/AdminServer\/upload\/t4\/app\/test-prt3.war",
+        "ejbs": [],
+        "urls": ["http:\/\/wls-itdbims01-dev-admin.cern.ch:21100\/test-prt3"],
+        "health": {"state": "ok"},
+        "openSessionsCurrentCount": 0,
+        "sessionsOpenedTotalCount": 0,
+        "applicationType": "war",
+        "name": "t4",
+        "state": "active",
+        "type": "application",
+        "displayName": "t4"
+    }
+}

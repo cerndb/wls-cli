@@ -1,0 +1,21 @@
+{
+    "messages": [{
+        "message": "Resumed the server 'devITDBIMS01_A_1'.",
+        "severity": "SUCCESS"
+    }],
+    "links": [{
+        "rel": "job",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/jobs\/server\/id\/devITDBIMS01_A_1:_7_resume"
+    }],
+    "item": {
+        "beginTime": 1439558770195,
+        "endTime": 1439558770279,
+        "status": "completed",
+        "operation": "resume",
+        "description": "Resuming devITDBIMS01_A_1 server ...",
+        "serverName": "devITDBIMS01_A_1",
+        "name": "_7_resume",
+        "id": "devITDBIMS01_A_1:_7_resume",
+        "type": "server"
+    }
+}

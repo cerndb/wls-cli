@@ -1,0 +1,4 @@
+{"messages": [{
+    "message": "The server 'AdminServer' cannot be started because it is in the 'running' state.",
+    "severity": "FAILURE"
+}]}

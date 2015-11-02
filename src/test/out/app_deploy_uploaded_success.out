@@ -1,0 +1,27 @@
+{
+    "messages": [{
+        "message": "Deployed the application 'BasicApp'.",
+        "severity": "SUCCESS"
+    }],
+    "links": [{
+        "rel": "job",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/jobs\/deployment\/id\/18"
+    }],
+    "item": {
+        "targets": [{
+            "status": "completed",
+            "errors": [],
+            "name": "devITDBIMS01_A_1",
+            "type": "server"
+        }],
+        "beginTime": 1439561182348,
+        "endTime": 1439561187695,
+        "status": "completed",
+        "deploymentName": "BasicApp",
+        "operation": "deploy",
+        "description": "[Deployer:149026]deploy application BasicApp on devITDBIMS01_A_1.",
+        "name": "ADTR-18",
+        "id": "18",
+        "type": "deployment"
+    }
+}

@@ -1,0 +1,4 @@
+{"messages": [{
+    "message": "[Deployer:149082]Cannot deploy application \"myapp\" without a version. The application was previously deployed with version \"v1\".",
+    "severity": "FAILURE"
+}]}

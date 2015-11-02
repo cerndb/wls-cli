@@ -1,0 +1,4 @@
+{"messages": [{
+    "message": "The application 't4' cannot be started because it is in the 'active' state.",
+    "severity": "FAILURE"
+}]}

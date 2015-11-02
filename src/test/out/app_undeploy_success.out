@@ -1,0 +1,27 @@
+{
+    "messages": [{
+        "message": "Undeployed the application 'BasicApp'.",
+        "severity": "SUCCESS"
+    }],
+    "links": [{
+        "rel": "job",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/jobs\/deployment\/id\/22"
+    }],
+    "item": {
+        "targets": [{
+            "status": "completed",
+            "errors": [],
+            "name": "devITDBIMS01_A_1",
+            "type": "server"
+        }],
+        "beginTime": 1439561406949,
+        "endTime": 1439561407233,
+        "status": "completed",
+        "deploymentName": "BasicApp",
+        "operation": "remove",
+        "description": "[Deployer:149026]remove application BasicApp on devITDBIMS01_A_1.",
+        "name": "ADTR-22",
+        "id": "22",
+        "type": "deployment"
+    }
+}

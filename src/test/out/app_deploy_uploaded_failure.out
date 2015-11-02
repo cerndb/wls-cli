@@ -1,0 +1,4 @@
+{"messages": [{
+    "message": "[Deployer:149003]Unable to access application source information in \"aa\/ORA\/dbs01\/syscontrol\/projects\/wls\/scripts\/rest\/curl_test\/j2eeapplication-0.0.1-SNAPSHOT.war\" for application \"BasicApp-1\". The specific error is: No application files exist.",
+    "severity": "FAILURE"
+}]}

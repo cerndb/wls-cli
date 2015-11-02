@@ -1,0 +1,58 @@
+{
+    "links": [{
+        "rel": "parent",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/servers\/id\/AdminServer\/logs"
+    }],
+    "items": [
+        {
+            "recordId": "20984",
+            "msgId": "BEA-2159602",
+            "severity": "Error",
+            "subSystem": "management-services-webapp",
+            "userId": "weblogic",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 14:49:34 926",
+            "message": "Management services encountered the following error: null for uri: https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/servers\/id\/devITDBIMS01_A_1\/stop"
+        },
+        {
+            "recordId": "20985",
+            "msgId": "BEA-2159602",
+            "severity": "Error",
+            "subSystem": "management-services-webapp",
+            "userId": "weblogic",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 14:49:34 927",
+            "message": "Management services encountered the following error: com.sun.jersey.api.NotFoundException: null for uri: https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/servers\/id\/devITDBIMS01_A_1\/stop\n\tat com.sun.jersey.server.impl.application.WebApplicationImpl._handleRequest(WebApplicationImpl.java:1543)\n\tat com.sun.jersey.server.impl.application.WebApplicationImpl._handleRequest(WebApplicationImpl.java:1473)\n\tat com.sun.jersey.server.impl.application.WebApplicationImpl.handleRequest(WebApplicationImpl.java:1419)\n\tat com.sun.jersey.server.impl.application.WebApplicationImpl.handleRequest(WebApplicationImpl.java:1409)\n\tat com.sun.jersey.spi.container.servlet.WebComponent.service(WebComponent.java:409)\n\tat com.sun.jersey.spi.container.servlet.ServletContainer.service(ServletContainer.java:540)\n\tat com.sun.jersey.spi.container.servlet.ServletContainer.doFilter(ServletContainer.java:909)\n\tat com.sun.jersey.spi.container.servlet.ServletContainer.doFilter(ServletContainer.java:857)\n\tat com.sun.jersey.spi.container.servlet.ServletContainer.doFilter(ServletContainer.java:811)\n\tat weblogic.servlet.internal.FilterChainImpl.doFilter(FilterChainImpl.java:79)\n\tat weblogic.servlet.internal.RequestEventsFilter.doFilter(RequestEventsFilter.java:27)\n\tat weblogic.servlet.internal.FilterChainImpl.doFilter(FilterChainImpl.java:79)\n\tat weblogic.servlet.internal.WebAppServletContext$ServletInvocationAction.wrapRun(WebAppServletContext.java:3436)\n\tat weblogic.servlet.internal.WebAppServletContext$ServletInvocationAction.run(WebAppServletContext.java:3402)\n\tat weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:321)\n\tat weblogic.security.service.SecurityManager.runAs(SecurityManager.java:120)\n\tat weblogic.servlet.provider.WlsSubjectHandle.run(WlsSubjectHandle.java:57)\n\tat weblogic.servlet.internal.WebAppServletContext.doSecuredExecute(WebAppServletContext.java:2285)\n\tat weblogic.servlet.internal.WebAppServletContext.securedExecute(WebAppServletContext.java:2201)\n\tat weblogic.servlet.internal.WebAppServletContext.execute(WebAppServletContext.java:2179)\n\tat weblogic.servlet.internal.ServletRequestImpl.run(ServletRequestImpl.java:1572)\n\tat weblogic.servlet.provider.ContainerSupportProviderImpl$WlsRequestExecutor.run(ContainerSupportProviderImpl.java:255)\n\tat weblogic.work.ExecuteThread.execute(ExecuteThread.java:311)\n\tat weblogic.work.ExecuteThread.run(ExecuteThread.java:263)\n"
+        },
+        {
+            "recordId": "20986",
+            "msgId": "BEA-2159602",
+            "severity": "Error",
+            "subSystem": "management-services-webapp",
+            "userId": "weblogic",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 15:31:58 585",
+            "message": "Management services encountered the following error: null for uri: https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/late\/"
+        },
+        {
+            "recordId": "20987",
+            "msgId": "BEA-2159602",
+            "severity": "Error",
+            "subSystem": "management-services-webapp",
+            "userId": "weblogic",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 15:31:58 585",
+            "message": "Management services encountered the following error: com.sun.jersey.api.NotFoundException: null for uri: https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/late\/\n\tat com.sun.jersey.server.impl.application.WebApplicationImpl._handleRequest(WebApplicationImpl.java:1543)\n\tat com.sun.jersey.server.impl.application.WebApplicationImpl._handleRequest(WebApplicationImpl.java:1473)\n\tat com.sun.jersey.server.impl.application.WebApplicationImpl.handleRequest(WebApplicationImpl.java:1419)\n\tat com.sun.jersey.server.impl.application.WebApplicationImpl.handleRequest(WebApplicationImpl.java:1409)\n\tat com.sun.jersey.spi.container.servlet.WebComponent.service(WebComponent.java:409)\n\tat com.sun.jersey.spi.container.servlet.ServletContainer.service(ServletContainer.java:540)\n\tat com.sun.jersey.spi.container.servlet.ServletContainer.doFilter(ServletContainer.java:909)\n\tat com.sun.jersey.spi.container.servlet.ServletContainer.doFilter(ServletContainer.java:857)\n\tat com.sun.jersey.spi.container.servlet.ServletContainer.doFilter(ServletContainer.java:811)\n\tat weblogic.servlet.internal.FilterChainImpl.doFilter(FilterChainImpl.java:79)\n\tat weblogic.servlet.internal.RequestEventsFilter.doFilter(RequestEventsFilter.java:27)\n\tat weblogic.servlet.internal.FilterChainImpl.doFilter(FilterChainImpl.java:79)\n\tat weblogic.servlet.internal.WebAppServletContext$ServletInvocationAction.wrapRun(WebAppServletContext.java:3436)\n\tat weblogic.servlet.internal.WebAppServletContext$ServletInvocationAction.run(WebAppServletContext.java:3402)\n\tat weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:321)\n\tat weblogic.security.service.SecurityManager.runAs(SecurityManager.java:120)\n\tat weblogic.servlet.provider.WlsSubjectHandle.run(WlsSubjectHandle.java:57)\n\tat weblogic.servlet.internal.WebAppServletContext.doSecuredExecute(WebAppServletContext.java:2285)\n\tat weblogic.servlet.internal.WebAppServletContext.securedExecute(WebAppServletContext.java:2201)\n\tat weblogic.servlet.internal.WebAppServletContext.execute(WebAppServletContext.java:2179)\n\tat weblogic.servlet.internal.ServletRequestImpl.run(ServletRequestImpl.java:1572)\n\tat weblogic.servlet.provider.ContainerSupportProviderImpl$WlsRequestExecutor.run(ContainerSupportProviderImpl.java:255)\n\tat weblogic.work.ExecuteThread.execute(ExecuteThread.java:311)\n\tat weblogic.work.ExecuteThread.run(ExecuteThread.java:263)\n"
+        },
+        {
+            "recordId": "20988",
+            "msgId": "BEA-2159602",
+            "severity": "Error",
+            "subSystem": "management-services-webapp",
+            "userId": "weblogic",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 15:34:25 334",
+            "message": "Management services encountered the following error: javax.ws.rs.WebApplicationException"
+        }
+    ]
+}

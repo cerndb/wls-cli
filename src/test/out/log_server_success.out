@@ -1,0 +1,58 @@
+{
+    "links": [{
+        "rel": "parent",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/servers\/id\/devITDBIMS01_A_1\/logs"
+    }],
+    "items": [
+        {
+            "recordId": "25178",
+            "msgId": "BEA-000162",
+            "severity": "Notice",
+            "subSystem": "Cluster",
+            "userId": "<WLS Kernel>",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 15:26:10 239",
+            "message": "Starting \"async\" replication service with remote cluster address \"null\""
+        },
+        {
+            "recordId": "25179",
+            "msgId": "BEA-000360",
+            "severity": "Notice",
+            "subSystem": "WebLogicServer",
+            "userId": "<WLS Kernel>",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 15:26:10 243",
+            "message": "The server started in RUNNING mode."
+        },
+        {
+            "recordId": "25180",
+            "msgId": "BEA-000365",
+            "severity": "Notice",
+            "subSystem": "WebLogicServer",
+            "userId": "<WLS Kernel>",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 15:26:10 278",
+            "message": "Server state changed to RUNNING."
+        },
+        {
+            "recordId": "25181",
+            "msgId": "BEA-310002",
+            "severity": "Info",
+            "subSystem": "Health",
+            "userId": "<anonymous>",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 15:26:17 523",
+            "message": "74% of the total memory in the server is free."
+        },
+        {
+            "recordId": "25182",
+            "msgId": "BEA-310002",
+            "severity": "Info",
+            "subSystem": "Health",
+            "userId": "<anonymous>",
+            "contextId": "",
+            "timeStamp": "08\/14\/15 15:52:17 532",
+            "message": "92% of the total memory in the server is free."
+        }
+    ]
+}

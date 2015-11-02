@@ -1,0 +1,36 @@
+{
+    "links": [{
+        "rel": "parent",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest"
+    }],
+    "items": [
+        {   
+            "name": "AdminServer",
+            "type": "server"
+        },
+        {   
+            "name": "devITDBIMS01_A_1",
+            "type": "server"
+        },
+        {   
+            "name": "devITDBIMS01_A_2",
+            "type": "server"
+        },
+        {   
+            "name": "devITDBIMS01_B_1",
+            "type": "server"
+        },
+        {   
+            "name": "devITDBIMS01_B_2",
+            "type": "server"
+        },
+        {   
+            "name": "devITDBIMS01_B_Cluster",
+            "type": "cluster"
+        },
+        {   
+            "name": "devITDBIMS01_A_Cluster",
+            "type": "cluster"
+        }
+    ]
+}

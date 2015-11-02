@@ -1,0 +1,4 @@
+{"messages": [{
+    "message": "The server 'devITDBIMS01_A_1' cannot be shut down because it is in the 'shutdown' state.",
+    "severity": "FAILURE"
+}]}

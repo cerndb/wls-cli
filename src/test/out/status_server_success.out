@@ -1,0 +1,23 @@
+{
+    "links": [
+        {
+            "rel": "parent",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/servers"
+        },
+        {
+            "rel": "logs",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/servers\/id\/AdminServer\/logs"
+        }
+    ],
+    "item": {
+        "heapFreeCurrent": 1059052656,
+        "heapSizeCurrent": 2131755008,
+        "usedPhysicalMemory": 7789543424,
+        "jvmProcessorLoad": 0,
+        "health": {"state": "ok"},
+        "activeHttpSessionCount": 0,
+        "activeThreadCount": 8,
+        "name": "AdminServer",
+        "state": "running"
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "links": [{
+        "rel": "parent",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/servers\/id\/devITDBIMS01_A_1\/logs"
+    }],
+    "items": [
+        {
+            "request": "GET \/sample\/images\/tomcat.gif HTTP\/1.1",
+            "status": "200",
+            "remoteUser": "-",
+            "recordId": "18",
+            "authUser": "-",
+            "host": "128.141.28.41"
+        },
+        {
+            "request": "GET \/sample\/hello.jsp HTTP\/1.1",
+            "status": "200",
+            "remoteUser": "-",
+            "recordId": "19",
+            "authUser": "-",
+            "host": "128.141.28.41"
+        },
+        {
+            "request": "GET \/sample\/hello HTTP\/1.1",
+            "status": "200",
+            "remoteUser": "-",
+            "recordId": "20",
+            "authUser": "-",
+            "host": "128.141.28.41"
+        },
+        {
+            "request": "GET \/sample\/index.html HTTP\/1.1",
+            "status": "304",
+            "remoteUser": "-",
+            "recordId": "21",
+            "authUser": "-",
+            "host": "128.141.28.41"
+        },
+        {
+            "request": "GET \/sample\/images\/tomcat.gif HTTP\/1.1",
+            "status": "304",
+            "remoteUser": "-",
+            "recordId": "22",
+            "authUser": "-",
+            "host": "128.141.28.41"
+        }
+    ]
+}

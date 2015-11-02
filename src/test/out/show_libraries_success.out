@@ -1,0 +1,26 @@
+{
+    "links": [
+        {
+            "rel": "parent",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments"
+        },
+        {
+            "rel": "items.name",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/library\/id\/ssoFilters_v20%231.0@2.0.10",
+            "title": "ssoFilters_v20#1.0@2.0.10"
+        }
+    ],
+    "items": [{
+        "targets": [
+            "devITDBIMS01_A_Cluster",
+            "devITDBIMS01_B_Cluster"
+        ],
+        "implVersion": "2.0.10",
+        "specVersion": "1.0",
+        "deploymentPath": "servers\/AdminServer\/upload\/ssoFilters_v20\/1.0@2.0.10\/app\/ssoFilters-v2.0.10.jar",
+        "name": "ssoFilters_v20#1.0@2.0.10",
+        "state": "active",
+        "type": "library",
+        "displayName": "ssoFilters_v20 (1.0,2.0.10)"
+    }]
+}

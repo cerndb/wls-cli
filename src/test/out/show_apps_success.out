@@ -1,0 +1,322 @@
+{
+    "links": [
+        {
+            "rel": "parent",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments"
+        },
+        {
+            "rel": "items.name",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application\/id\/sample-c1",
+            "title": "sample-c1"
+        },
+        {
+            "rel": "items.name",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application\/id\/t1",
+            "title": "t1"
+        },
+        {
+            "rel": "items.name",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application\/id\/t4",
+            "title": "t4"
+        },
+        {
+            "rel": "items.name",
+            "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/deployments\/application\/id\/myapp%23v1",
+            "title": "myapp#v1"
+        }
+    ],
+    "items": [
+        {
+            "targets": ["devITDBIMS01_A_Cluster"],
+            "planPath": null,
+            "servlets": [
+                {
+                    "servletName": "JspServlet",
+                    "contextPath": "\/sample",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [
+                        {
+                            "serverName": "devITDBIMS01_A_2",
+                            "executionTimeTotal": 0,
+                            "invocationTotalCount": 0,
+                            "reloadTotalCount": 0,
+                            "executionTimeHigh": 0,
+                            "executionTimeLow": 0
+                        },
+                        {
+                            "serverName": "devITDBIMS01_A_1",
+                            "executionTimeTotal": 0,
+                            "invocationTotalCount": 0,
+                            "reloadTotalCount": 0,
+                            "executionTimeHigh": 0,
+                            "executionTimeLow": 0
+                        }
+                    ]
+                },
+                {
+                    "servletName": "HelloServlet",
+                    "contextPath": "\/sample",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [
+                        {
+                            "serverName": "devITDBIMS01_A_2",
+                            "executionTimeTotal": 0,
+                            "invocationTotalCount": 0,
+                            "reloadTotalCount": 0,
+                            "executionTimeHigh": 0,
+                            "executionTimeLow": 0
+                        },
+                        {
+                            "serverName": "devITDBIMS01_A_1",
+                            "executionTimeTotal": 0,
+                            "invocationTotalCount": 0,
+                            "reloadTotalCount": 0,
+                            "executionTimeHigh": 0,
+                            "executionTimeLow": 0
+                        }
+                    ]
+                },
+                {
+                    "servletName": "FileServlet",
+                    "contextPath": "\/sample",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [
+                        {
+                            "serverName": "devITDBIMS01_A_2",
+                            "executionTimeTotal": 0,
+                            "invocationTotalCount": 0,
+                            "reloadTotalCount": 0,
+                            "executionTimeHigh": 0,
+                            "executionTimeLow": 0
+                        },
+                        {
+                            "serverName": "devITDBIMS01_A_1",
+                            "executionTimeTotal": 0,
+                            "invocationTotalCount": 0,
+                            "reloadTotalCount": 0,
+                            "executionTimeHigh": 0,
+                            "executionTimeLow": 0
+                        }
+                    ]
+                }
+            ],
+            "deploymentPath": "\/ORA\/dbs01\/wls\/home\/sample.war",
+            "ejbs": [],
+            "urls": [
+                "http:\/\/db-13018.cern.ch:21110\/sample",
+                "http:\/\/db-13017.cern.ch:21105\/sample"
+            ],
+            "health": {"state": "ok"},
+            "openSessionsCurrentCount": 0,
+            "sessionsOpenedTotalCount": 0,
+            "applicationType": "war",
+            "name": "sample-c1",
+            "state": "active",
+            "type": "application",
+            "displayName": "sample-c1"
+        },
+        {
+            "targets": ["AdminServer"],
+            "planPath": "\/ORA\/dbs01\/syscontrol\/local\/wls\/entities\/wls_itdbims01_dev\/servers\/AdminServer\/upload\/t1\/plan\/Plan.xml",
+            "servlets": [
+                {
+                    "servletName": "JspServlet",
+                    "contextPath": "\/test-prt2",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [{
+                        "serverName": "AdminServer",
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    }]
+                },
+                {
+                    "servletName": "FileServlet",
+                    "contextPath": "\/test-prt2",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [{
+                        "serverName": "AdminServer",
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    }]
+                }
+            ],
+            "deploymentPath": "servers\/AdminServer\/upload\/t1\/app\/test-prt2.war",
+            "ejbs": [],
+            "urls": ["http:\/\/wls-itdbims01-dev-admin.cern.ch:21100\/test-prt2"],
+            "health": {"state": "ok"},
+            "openSessionsCurrentCount": 0,
+            "sessionsOpenedTotalCount": 0,
+            "applicationType": "war",
+            "name": "t1",
+            "state": "active",
+            "type": "application",
+            "displayName": "t1"
+        },
+        {
+            "targets": ["AdminServer"],
+            "planPath": "\/ORA\/dbs01\/syscontrol\/local\/wls\/entities\/wls_itdbims01_dev\/servers\/AdminServer\/upload\/t4\/plan\/Plan.xml",
+            "servlets": [
+                {
+                    "servletName": "JspServlet",
+                    "contextPath": "\/test-prt3",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [{
+                        "serverName": "AdminServer",
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    }]
+                },
+                {
+                    "servletName": "FileServlet",
+                    "contextPath": "\/test-prt3",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [{
+                        "serverName": "AdminServer",
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    }]
+                }
+            ],
+            "deploymentPath": "servers\/AdminServer\/upload\/t4\/app\/test-prt3.war",
+            "ejbs": [],
+            "urls": ["http:\/\/wls-itdbims01-dev-admin.cern.ch:21100\/test-prt3"],
+            "health": {"state": "ok"},
+            "openSessionsCurrentCount": 0,
+            "sessionsOpenedTotalCount": 0,
+            "applicationType": "war",
+            "name": "t4",
+            "state": "active",
+            "type": "application",
+            "displayName": "t4"
+        },
+        {
+            "targets": ["AdminServer"],
+            "planPath": "\/ORA\/dbs01\/syscontrol\/local\/wls\/entities\/wls_itdbims01_dev\/servers\/AdminServer\/upload\/myapp\/plan\/Plan.xml",
+            "servlets": [
+                {
+                    "servletName": "JspServlet",
+                    "contextPath": "\/simple",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [{
+                        "serverName": "AdminServer",
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    }]
+                },
+                {
+                    "servletName": "processor",
+                    "contextPath": "\/simple",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [{
+                        "serverName": "AdminServer",
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    }]
+                },
+                {
+                    "servletName": "FileServlet",
+                    "contextPath": "\/simple",
+                    "aggregateMetrics": {
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    },
+                    "servletMetrics": [{
+                        "serverName": "AdminServer",
+                        "executionTimeTotal": 0,
+                        "invocationTotalCount": 0,
+                        "reloadTotalCount": 0,
+                        "executionTimeHigh": 0,
+                        "executionTimeLow": 0
+                    }]
+                }
+            ],
+            "deploymentPath": "servers\/AdminServer\/upload\/myapp\/app\/simple.war",
+            "ejbs": [],
+            "urls": ["http:\/\/wls-itdbims01-dev-admin.cern.ch:21100\/simple"],
+            "archiveVersion": "v1",
+            "health": {"state": "ok"},
+            "openSessionsCurrentCount": 0,
+            "sessionsOpenedTotalCount": 0,
+            "applicationType": "war",
+            "name": "myapp#v1",
+            "state": "active",
+            "type": "application",
+            "displayName": "myapp (v1)"
+        }
+    ]
+}

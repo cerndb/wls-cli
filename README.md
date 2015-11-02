@@ -1,2 +1,0 @@
-Weblogic CLI tool
-

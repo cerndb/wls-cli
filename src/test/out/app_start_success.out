@@ -1,0 +1,27 @@
+{
+    "messages": [{
+        "message": "Started the application 't4'.",
+        "severity": "SUCCESS"
+    }],
+    "links": [{
+        "rel": "job",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/jobs\/deployment\/id\/11"
+    }],
+    "item": {
+        "targets": [{
+            "status": "completed",
+            "errors": [],
+            "name": "AdminServer",
+            "type": "server"
+        }],
+        "beginTime": 1439560650418,
+        "endTime": 1439560650753,
+        "status": "completed",
+        "deploymentName": "t4",
+        "operation": "start",
+        "description": "[Deployer:149026]start application t4 on AdminServer.",
+        "name": "ADTR-11",
+        "id": "11",
+        "type": "deployment"
+    }
+}

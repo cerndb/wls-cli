@@ -1,0 +1,27 @@
+{
+    "messages": [{
+        "message": "Deployed the library 'airline'.",
+        "severity": "SUCCESS"
+    }],
+    "links": [{
+        "rel": "job",
+        "uri": "https:\/\/wls-itdbims01-dev-admin.cern.ch:21111\/management\/wls\/latest\/jobs\/deployment\/id\/24"
+    }],
+    "item": {
+        "targets": [{
+            "status": "completed",
+            "errors": [],
+            "name": "devITDBIMS01_A_1",
+            "type": "server"
+        }],
+        "beginTime": 1439561542078,
+        "endTime": 1439561544058,
+        "status": "completed",
+        "deploymentName": "airline",
+        "operation": "deploy",
+        "description": "[Deployer:149117]deploy library airline on devITDBIMS01_A_1.",
+        "name": "ADTR-24",
+        "id": "24",
+        "type": "deployment"
+    }
+}
