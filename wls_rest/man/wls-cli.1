@@ -1,0 +1,2811 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "WLS_DOCUMENTATION" "1" "November 2015" "" ""
+.
+.SH "NAME"
+\fBwls_documentation\fR
+.
+.P
+The idea behind creating REST CLI Tool is to provide a single product that allows to operate Oracle Weblogic Server main business functions without accessing Administration Console\. The strategy is to integrate functionality from all REST interfaces provided by Oracle and to deliver remote access management\. Here is a quick overview of the features\.
+.
+.P
+CERN Weblogic CLI tool is written in Python\. A project is being realized in an object oriented way to contribute towards flexibility, modularity and legibility of a solution and the modules of the system are designed to maximize end user productivity\. It is a comprehensive solution using Weblogic RESTful management services and providing a simple way of interacting with a user and possibility of integration with third\- party systems\.
+.
+.SH "1\. Authentication"
+There are following policies of using CERN CLI Tool:
+.
+.SS "1\.1 Interactive mode"
+wls\-cli \-\-url ADMIN_SERVER_URL {SOME_REQUEST}
+.
+.P
+It is a default option and it doesn\'t requires any additional parameters\. CLI Tool asks user for credentials with every request\.
+.
+.SS "1\.2 Netrc file"
+wls\-cli \-\-url ADMIN_SERVER_URL {SOME_REQUEST} \-\-netrc
+.
+.P
+It is possible to use \.netrc file stored in user\'s home directory\. Example \.netrc file:
+.
+.IP "" 4
+.
+.nf
+
+machine wls\-itdbims01\-dev\-admin\.cern\.ch
+        login weblogic
+        password XXXXX
+.
+.fi
+.
+.IP "" 0
+.
+.SS "1\.3 HTTP cookie"
+wls\-cli \-\-url ADMIN_SERVER_URL {SOME_REQUEST} \-\-usession
+.
+.P
+Oracle Weblogic Server maintains Java session and generates unique HTTP cookie for further communication\. User can use this token for further communication with the server instead of typing his credentials with every request\.
+.
+.P
+Note: User will be asked for a credentials only for the first time and when previous cookie file expires\.
+.
+.SS "1\.4 Custom script"
+wls\-cli \-\-url ADMIN_SERVER_URL {SOME_REQUEST} \-\-username USERNAME \-\-passwd_script SCRIPT_TO_EXECUTE
+.
+.P
+User can use his/her own script for passing a password\.
+.
+.P
+Example:
+.
+.IP "" 4
+.
+.nf
+
+ \-\-passwd_script "echo XXXX"
+.
+.fi
+.
+.IP "" 0
+.
+.SS "1\.5 Credentials given explicitly in parameter"
+wls\-cli \-\-url ADMIN_SERVER_URL {SOME_REQUEST} \-\-username USERNAME \-\-passwd PASSWD
+.
+.P
+User can pass a username and a password explicitly in parameters\.
+.
+.SS "1\.6 CERN specific implementation"
+wls\-cli \-\-i CERN_ENTITY_NAME {SOME_REQUEST}
+.
+.P
+This solution is based on CERN\'s wlstab script and it is not possible to execute it outside CERN\.
+.
+.SH "2\. Main functionality"
+.
+.SS "2\.2 Servers Management"
+.
+.SS "a\. Start a server:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-start server \-\-target SERVER_NAME
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-start server \-\-target devITDBIMS01_A_2
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 16:58:50,281 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 16:58:50,284 \- Logger \- INFO \- Operating request: \'start servers\' using: REST
+Started the server \'devITDBIMS01_A_2\'\. : SUCCESS
+2015\-09\-21 16:58:52,053 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "b\. Stop a server:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-stop server \-\-target SERVER_NAME
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-stop server \-\-target devITDBIMS01_A_2
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 16:59:56,923 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 16:59:56,925 \- Logger \- INFO \- Operating request: \'stop servers\' using: REST
+Shutdown the server \'devITDBIMS01_A_2\'\. : SUCCESS
+2015\-09\-21 17:00:07,898 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "c\. Check status of a server:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-status server \-\-target SERVER_NAME
+.
+.P
+Note: here you can add optional parameter \fI\-l\fR or \fI\-\-long\fR that enables output with full status parameters\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status server \-\-target devITDBIMS01_A_2
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:02:12,343 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:02:12,345 \- Logger \- INFO \- Operating request: \'status servers\' using: REST
+devITDBIMS01_A_2
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+2015\-09\-21 17:02:13,137 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+\fBExample with \fI\-\-long\fR:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-stop server \-\-target devITDBIMS01_A_2 \-\-long
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:02:37,740 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:02:37,742 \- Logger \- INFO \- Operating request: \'status servers\' using: REST
+
+devITDBIMS01_A_2
+ \-state: running
+ \-heapFreeCurrent : 1622158624
+ \-heapSizeCurrent : 2058027008
+ \-jvmProcessorLoad : 0
+ \-activeHttpSessionCount : 0
+ \-usedPhysicalMemory : 10310348800
+ \-health:
+    \-state : ok
+ \-activeThreadCount : 6
+2015\-09\-21 17:02:39,090 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "d\. Restart a server:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-restart server \-\-target SERVER_NAME
+.
+.P
+Note: cannot perform for Admin Server
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-restart server \-\-target devITDBIMS01_A_2
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:04:06,294 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:04:06,297 \- Logger \- INFO \- Operating request: \'restart servers\' using: REST
+Restarted the server \'devITDBIMS01_A_2\'\. : SUCCESS
+2015\-09\-21 17:05:00,922 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "e\. Suspend a server:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-suspend server \-\-target SERVER_NAME
+.
+.P
+This operation makes server go into \fIadmin\fR state\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-suspend server \-\-target devITDBIMS01_A_2
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:05:21,860 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:05:21,863 \- Logger \- INFO \- Operating request: \'suspend servers\' using: REST
+Suspended the server \'devITDBIMS01_A_2\'\. : SUCCESS
+2015\-09\-21 17:05:24,368 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+Then we can check status of the server (admin state):
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+devITDBIMS01_A_2
+ \-state: admin
+ \-health: {u\'state\': u\'ok\'}
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "f\. Resume a server:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-resume server \-\-target SERVER_NAME
+.
+.P
+After suspending the server (server is in \fIadmin\fR state) we can make it return to the \fIrunning\fR state\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-resume server \-\-target devITDBIMS01_A_2
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:05:55,196 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:05:55,199 \- Logger \- INFO \- Operating request: \'resume servers\' using: REST
+Resumed the server \'devITDBIMS01_A_2\'\. : SUCCESS
+2015\-09\-21 17:05:58,426 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+Then we can check status of the server (running):
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+devITDBIMS01_A_2
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "2\.2 Clusters Management"
+.
+.SS "a\. Start a cluster:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-start cluster \-\-target CLUSTER_NAME
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-start cluster \-\-target devITDBIMS01_B_Cluster
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:07:07,115 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:07:07,118 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-21 17:07:08,047 \- Logger \- INFO \- Operating request: \'start servers\' using: REST
+Started the server \'devITDBIMS01_B_2\'\. : SUCCESS
+Starting the server \'devITDBIMS01_B_1\'\. : SUCCESS
+2015\-09\-21 17:07:08,857 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "b\. Stop a cluster:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-stop cluster \-\-target CLUSTER_NAME
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-stop cluster \-\-target devITDBIMS01_B_Cluster
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:08:09,656 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:08:09,659 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-21 17:08:10,526 \- Logger \- INFO \- Operating request: \'stop servers\' using: REST
+Shutdown the server \'devITDBIMS01_B_2\'\. : SUCCESS
+Shutdown the server \'devITDBIMS01_B_1\'\. : SUCCESS
+2015\-09\-21 17:08:19,553 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "c\. Check status of a cluster:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-status cluster \-\-target CLUSTER_NAME
+.
+.P
+Note: here you can add optional parameter \fI\-l\fR or \fI\-\-long\fR that enables output with full status parameters\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status cluster \-\-target devITDBIMS01_B_Cluster
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:11:24,694 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:11:24,696 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-21 17:11:25,808 \- Logger \- INFO \- Operating request: \'status servers\' using: REST
+devITDBIMS01_B_2
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+devITDBIMS01_B_1
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+2015\-09\-21 17:11:26,382 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+\fBExample with \fIlong\fR:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status cluster \-\-target devITDBIMS01_B_Cluster \-\-long
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:11:32,541 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:11:32,543 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-21 17:11:33,419 \- Logger \- INFO \- Operating request: \'status servers\' using: REST
+
+devITDBIMS01_B_2
+ \-state: running
+ \-heapFreeCurrent : 1524769848
+ \-heapSizeCurrent : 2058027008
+ \-jvmProcessorLoad : 0
+ \-activeHttpSessionCount : 0
+ \-usedPhysicalMemory : 9640296448
+ \-health:
+    \-state : ok
+ \-activeThreadCount : 2
+
+devITDBIMS01_B_1
+ \-state: running
+ \-heapFreeCurrent : 1483944520
+ \-heapSizeCurrent : 2058027008
+ \-jvmProcessorLoad : 1
+ \-activeHttpSessionCount : 0
+ \-usedPhysicalMemory : 10836283392
+ \-health:
+    \-state : ok
+ \-activeThreadCount : 5
+2015\-09\-21 17:11:33,898 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "d\. Restart a cluster:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-restart cluster \-\-target CLUSTER_NAME
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-restart cluster \-\-target devITDBIMS01_B_Cluster
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:12:11,849 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:12:11,851 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-21 17:12:12,768 \- Logger \- INFO \- Operating request: \'restart servers\' using: REST
+Restarted the server \'devITDBIMS01_B_2\'\. : SUCCESS
+Restarted the server \'devITDBIMS01_B_1\'\. : SUCCESS
+2015\-09\-21 17:13:09,681 \- Logger \- INFO \- Finish\.
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "e\. Suspend a cluster:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-suspend cluster \-\-target CLUSTER_NAME
+.
+.P
+This operation makes cluster (every server in the cluster) go into \fIadmin\fR state\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-suspend cluster \-\-target devITDBIMS01_B_Cluster
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:13:42,038 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:13:42,041 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-21 17:13:43,236 \- Logger \- INFO \- Operating request: \'suspend servers\' using: REST
+Suspended the server \'devITDBIMS01_B_2\'\. : SUCCESS
+Suspended the server \'devITDBIMS01_B_1\'\. : SUCCESS
+2015\-09\-21 17:13:47,541 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+Then we can check status of the cluster (admin state):
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+devITDBIMS01_B_2
+ \-state: admin
+ \-health: {u\'state\': u\'ok\'}
+
+devITDBIMS01_B_1
+ \-state: admin
+ \-health: {u\'state\': u\'ok\'}
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "f\. Resume a cluster:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-resume cluster \-\-target CLUSTER_NAME
+.
+.P
+After suspending a cluster (every server in the cluster is in \fIadmin\fR state) we can make it return to the \fIrunning\fR state\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-resume cluster \-\-target devITDBIMS01_B_Cluster
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-21 17:13:57,997 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-21 17:13:57,999 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-21 17:13:58,895 \- Logger \- INFO \- Operating request: \'resume servers\' using: REST
+Resumed the server \'devITDBIMS01_B_2\'\. : SUCCESS
+Resumed the server \'devITDBIMS01_B_1\'\. : SUCCESS
+2015\-09\-21 17:14:03,227 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+Then we can check status of the cluster (running):
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+devITDBIMS01_B_2
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+devITDBIMS01_B_1
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "2\.3 Domain Management"
+.
+.SS "a\. Start a domain:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-start domain
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-start domain
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 09:20:02,899 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 09:20:02,901 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-22 09:20:09,511 \- Logger \- INFO \- Operating request: \'start servers\' using: REST
+Started the server \'AdminServer\'\. : SUCCESS\.
+Started the server \'devITDBIMS01_A_2\'\. : SUCCESS
+Started the server \'devITDBIMS01_A_1\'\. : SUCCESS
+Started the server \'devITDBIMS01_B_2\'\. : SUCCESS
+Started the server \'devITDBIMS01_B_1\'\. : SUCCESS
+2015\-09\-22 09:20:19,232 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "b\. Stop a domain:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-stop domain
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-stop domain
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 09:22:25,947 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 09:22:25,949 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-22 09:22:26,874 \- Logger \- INFO \- Operating request: \'stop servers\' using: REST
+Shutdown the server \'devITDBIMS01_A_2\'\. : SUCCESS
+Shutdown the server \'devITDBIMS01_A_1\'\. : SUCCESS
+Shutdown the server \'devITDBIMS01_B_2\'\. : SUCCESS
+Shutdown the server \'devITDBIMS01_B_1\'\. : SUCCESS
+Shutdown the server \'AdminServer\'\. : SUCCESS\.
+2015\-09\-22 09:25:08,113 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "c\. Check status of a domain:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-status domain
+.
+.P
+Note: here you can add optional parameter \fI\-l\fR or \fI\-\-long\fR that enables output with full status parameters\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status domain
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 09:50:18,967 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 09:50:18,969 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-22 09:50:20,115 \- Logger \- INFO \- Operating request: \'status servers\' using: REST
+AdminServer
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+devITDBIMS01_A_2
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+devITDBIMS01_A_1
+ \-state: running
+ \-health: shutdown
+
+devITDBIMS01_B_1
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+devITDBIMS01_B_2
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+2015\-09\-22 09:50:22,402 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+\fBExample with \fIlong\fR:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status domain \-l
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 09:51:13,268 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 09:51:13,270 \- Logger \- INFO \- Getting domain data (servers, clusters) using: REST\.
+2015\-09\-22 09:51:14,170 \- Logger \- INFO \- Operating request: \'status servers\' using: REST
+
+AdminServer
+ \-state: running
+ \-heapFreeCurrent : 1298183608
+ \-heapSizeCurrent : 2007498752
+ \-jvmProcessorLoad : 2
+ \-activeHttpSessionCount : 0
+ \-usedPhysicalMemory : 7935873024
+ \-health:
+    \-state : ok
+ \-activeThreadCount : 7
+
+devITDBIMS01_A_2
+ \-state: running
+ \-heapFreeCurrent : 1674051224
+ \-heapSizeCurrent : 2058027008
+ \-jvmProcessorLoad : 0
+ \-activeHttpSessionCount : 0
+ \-usedPhysicalMemory : 10393124864
+ \-health:
+    \-state : ok
+ \-activeThreadCount : 6
+
+devITDBIMS01_A_1
+ \-state: running
+
+devITDBIMS01_B_1
+ \-state: running
+ \-heapFreeCurrent : 1497526560
+ \-heapSizeCurrent : 2058027008
+ \-jvmProcessorLoad : 0
+ \-activeHttpSessionCount : 0
+ \-usedPhysicalMemory : 10855374848
+ \-health:
+    \-state : ok
+ \-activeThreadCount : 7
+
+devITDBIMS01_B_2
+ \-state: running
+ \-heapFreeCurrent : 1529021040
+ \-heapSizeCurrent : 2058027008
+ \-jvmProcessorLoad : 0
+ \-activeHttpSessionCount : 0
+ \-usedPhysicalMemory : 10392342528
+ \-health:
+    \-state : ok
+ \-activeThreadCount : 6
+2015\-09\-22 09:51:16,372 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "2\.4 Applications Management"
+Note: If you want apps versioning you need to specify \fIWeblogic\-Application\-Version\fR attribute in the MANIFEST\.MF file\.
+.
+.P
+Oracle documentation \fIhttp://www\.oracle\.com/webfolder/technetwork/tutorials/obe/fmw/wls/12c/14\-Redeployment\-\-4465/redeploy\.htm\fR
+.
+.SS "a\. Start an application:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-start app \-\-appname APP_NAME
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-start app \-\-appname myapp
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 09:56:41,135 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 09:56:41,138 \- Logger \- INFO \- Operating request: \'start an app\' using: REST
+Started the application \'myapp\'\. : SUCCESS
+2015\-09\-22 09:56:41,410 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "b\. Stop an application"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-stop app \-\-appname APP_NAME
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-stop app \-\-appname myapp
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 09:57:49,669 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 09:57:49,671 \- Logger \- INFO \- Operating request: \'stop an app\' using: REST
+Stopped the application \'myapp\'\. : SUCCESS
+2015\-09\-22 09:57:52,816 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "c\. Check status of an application"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-status app \-\-appname APP_NAME
+.
+.P
+Note: here you can add optional parameter \fI\-\-long\fR that shows additional parameters\. Note2: here you can add optional parameter \fI\-\-servlets\fR that shows servlets and its parameters\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status app
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 09:58:31,344 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 09:58:31,346 \- Logger \- INFO \- Operating request: \'status app\' using: REST
+myapp:
+ \-state : active
+ \-health: {state : ok}
+ \-targets: devITDBIMS01_A_2
+2015\-09\-22 09:58:32,221 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+\fBExample with \fIlong\fR:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status app \-l
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 09:59:08,326 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 09:59:08,328 \- Logger \- INFO \- Operating request: \'status app\' using: REST
+myapp:
+ \-planPath : /ORA/dbs01/syscontrol/local/wls/entities/wls_itdbims01_dev/servers/AdminServer/upload/myapp/plan/Plan\.xml
+ \-sessionsOpenedTotalCount : 0
+ \-ejbs:
+ \-state : active
+ \-openSessionsCurrentCount : 0
+ \-health:
+    \-state : ok
+ \-applicationType : war
+ \-urls:
+    \-http://db\-13018\.cern\.ch:21110/j2eeapplication\-0\.0\.1\-SNAPSHOT
+ \-displayName : myapp
+ \-type : application
+ \-targets:
+    \-devITDBIMS01_A_2, devITDBIMS01_A_1
+ \-deploymentPath : servers/AdminServer/upload/myapp/app/j2eeapplication\-0\.0\.1\-SNAPSHOT\.war
+2015\-09\-22 09:59:09,085 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+\fBExample with \fIservlets\fR:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status app \-\-appname myapp \-\-servlets
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 09:59:46,744 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 09:59:46,747 \- Logger \- INFO \- Operating request: \'status app\' using: REST
+myapp:
+ \-servlets:
+       \-servletMetrics:
+             \-executionTimeHigh : 0
+             \-reloadTotalCount : 0
+             \-invocationTotalCount : 0
+             \-serverName : devITDBIMS01_A_2
+             \-executionTimeLow : 0
+             \-executionTimeTotal : 0
+
+             \-executionTimeHigh : 0
+             \-reloadTotalCount : 0
+             \-invocationTotalCount : 0
+             \-serverName : devITDBIMS01_A_1
+             \-executionTimeLow : 0
+             \-executionTimeTotal : 0
+
+       \-aggregateMetrics:
+          \-executionTimeHigh : 0
+          \-invocationTotalCount : 0
+          \-reloadTotalCount : 0
+          \-executionTimeLow : 0
+          \-executionTimeTotal : 0
+       \-servletName : JspServlet
+       \-contextPath : /app
+
+       \-servletMetrics:
+             \-executionTimeHigh : 0
+             \-reloadTotalCount : 0
+             \-invocationTotalCount : 0
+             \-serverName : devITDBIMS01_A_2
+             \-executionTimeLow : 0
+             \-executionTimeTotal : 0
+
+             \-executionTimeHigh : 0
+             \-reloadTotalCount : 0
+             \-invocationTotalCount : 0
+             \-serverName : devITDBIMS01_A_1
+             \-executionTimeLow : 0
+             \-executionTimeTotal : 0
+
+       \-aggregateMetrics:
+          \-executionTimeHigh : 0
+          \-invocationTotalCount : 0
+          \-reloadTotalCount : 0
+          \-executionTimeLow : 0
+          \-executionTimeTotal : 0
+       \-servletName : HelloServlet
+       \-contextPath : /app
+
+       \-servletMetrics:
+             \-executionTimeHigh : 0
+             \-reloadTotalCount : 0
+             \-invocationTotalCount : 0
+             \-serverName : devITDBIMS01_A_2
+             \-executionTimeLow : 0
+             \-executionTimeTotal : 0
+
+             \-executionTimeHigh : 0
+             \-reloadTotalCount : 0
+             \-invocationTotalCount : 0
+             \-serverName : devITDBIMS01_A_1
+             \-executionTimeLow : 0
+             \-executionTimeTotal : 0
+
+       \-aggregateMetrics:
+          \-executionTimeHigh : 0
+          \-invocationTotalCount : 0
+          \-reloadTotalCount : 0
+          \-executionTimeLow : 0
+          \-executionTimeTotal : 0
+       \-servletName : FileServlet
+       \-contextPath : /app
+
+ \-state : active
+ \-health:
+    \-state : ok
+ \-targets:
+    \-devITDBIMS01_A_Cluster
+2015\-09\-04 14:06:32,940 \- Logger \- INFO \- Finished\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "d\. Redeploy uploaded application:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-redeploy \-\-appname APP_NAME \-\-adminfs
+.
+.P
+Note: Use this method when the file to redeploy is already on the Administration Server file system\.
+.
+.P
+Note2: \fIfile\fR argument is accepted by the parser, but will be ignored in execution\.
+.
+.P
+Note3: \fItarget\fR argument is accepted by the parser, but will be ignored in execution\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-redeploy \-\-appname myapp \-\-adminfs
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 10:01:56,299 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 10:01:56,302 \- Logger \- INFO \- Operating request: \'redeploy uploaded app\' using: REST
+Redeployed the application \'myapp\'\. : SUCCESS
+2015\-09\-22 10:02:11,936 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "e\. Redeploy an application from a local file:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-redeploy \-\-appname APP_NAME \-\-file APP_PATH
+.
+.P
+Note: \fItarget\fR argument is accepted by the parser, but will be ignored in execution\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-redeploy \-\-appname myapp \-\-file /ORA/dbs01/syscontrol/projects/wls/scripts/rest/j2eeapplication\-2\.0\.1\-SNAPSHOT\.war
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 10:04:32,393 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 10:04:32,451 \- Logger \- INFO \- Operating request: \'redeploy an app from local source\' using: REST
+Redeployed the application \'myapp\'\. : SUCCESS
+2015\-09\-22 10:05:00,314 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "f\. Redeploy uploaded library:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-redeploy \-\-libname LIB_NAME \-\-adminfs
+.
+.P
+Note: Use this method when the file to redeploy is already on the Administration Server file system\.
+.
+.P
+Note2: \fIfile\fR argument is accepted by the parser, but will be ignored in execution\.
+.
+.P
+Note3: \fItarget\fR argument is accepted by the parser, but will be ignored in execution\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-redeploy \-\-libname ssoFilters_v20 \-\-adminfs
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 10:08:01,195 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 10:08:01,197 \- Logger \- INFO \- Operating request: \'redeploy uploaded app\' using: REST
+Redeployed the library \'ssoFilters_v20\'\. : SUCCESS
+2015\-09\-22 10:08:01,369 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "g\. Redeploy a library from a local file:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-redeploy \-\-libname LIB_NAME \-\-file APP_PATH
+.
+.P
+Note: \fItarget\fR argument is accepted by the parser, but will be ignored in execution\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-redeploy \-\-libname ssoFilters_v20 \-\-file /ORA/dbs01/wls/home/ssoFilters\-v2\.0\.10\.jar
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 10:09:24,449 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 10:09:24,452 \- Logger \- INFO \- Operating request: \'redeploy an app from local source\' using: REST
+Redeployed the library \'ssoFilters_v20\'\. : SUCCESS
+2015\-09\-22 10:09:24,774 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "h\. Update an application:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-update \-\-appname APP_NAME
+.
+.P
+Note: You should invoke this method after you have updated the underlying deployment plan\.
+.
+.P
+Note2: \fItarget\fR argument is accepted by the parser, but will be ignored in execution\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-update \-\-appname myapp \-\-netrc
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 10:10:35,043 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 10:10:35,045 \- Logger \- INFO \- Operating request: \'update an app\' using: REST
+Updated the application \'myapp\'\. : SUCCESS
+2015\-09\-22 10:10:37,453 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "i\. Deploy an application from a local file:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-deploy \-\-targets TARGET_NAME \-\-appname APP_NAME \-\-file LOCAL_PATH
+.
+.P
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-deploy \-\-targets TARGET1_NAME TARGET2_NAME (\.\.\.) \-\-appname APP_NAME \-\-file LOCAL_PATH
+.
+.P
+Note: this kind of deployment is default\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-deploy \-\-appname myapp \-\-file /ORA/dbs01/syscontrol/projects/wls/scripts/rest/j2eeapplication\-2\.0\.1\-SNAPSHOT\.war \-\-targets devITDBIMS01_A_1 devITDBIMS01_A_2
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 10:13:50,267 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 10:13:50,270 \- Logger \- INFO \- Operating request: \'deploy an app from local source\' using: REST
+Deployed the application \'myapp\'\. : SUCCESS
+2015\-09\-22 10:14:02,013 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "j\. Deploy uploaded application:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-deploy \-\-adminfs \-\-targets TARGET_NAME \-\-appname APP_NAME \-\- file UPLOADED_APP_PATH
+.
+.P
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-deploy \-\-adminfs \-\-targets TARGET1_NAME TARGET2_NAME (\.\.\.) \-\-appname APP_NAME \-\- file UPLOADED_APP_PATH
+.
+.P
+Note: To perform this kind of deployment you need to add \fI\-\-adminfs\fR parameter to the request\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-deploy \-\-appname myapp \-\-file /ORA/dbs01/syscontrol/projects/wls/scripts/rest/j2eeapplication\-2\.0\.1\-SNAPSHOT\.war \-\-targets devITDBIMS01_A_1 devITDBIMS01_A_2 \-\-adminfs
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:01:50,366 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:01:50,369 \- Logger \- INFO \- Operating request: \'deploy uploaded app\' using: REST
+Deployed the application \'myapp\'\. : SUCCESS
+2015\-09\-22 11:01:56,729 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "k\. Deploy a library from local file:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-deploy \-\-targets TARGET_NAME \-\-libname LIB_NAME \-\- file APP_PATH
+.
+.P
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-deploy \-\-targets TARGET1_NAME TARGET2_NAME (\.\.\.) \-\-libname LIB_NAME \-\- file APP_PATH
+.
+.P
+Note: this kind of deployment is default\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-deploy \-\-libname ssoFilters_v20#1\.0@2\.0\.10 \-\-file /ORA/dbs01/wls/home/ssoFilters\-v2\.0\.10\.jar \-\-targets devITDBIMS01_A_1 devITDBIMS01_A_2
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:05:01,008 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:05:01,011 \- Logger \- INFO \- Operating request: \'deploy a library from local source\' using: REST
+Deployed the library \'ssoFilters_v20#1\.0@2\.0\.10\'\. : SUCCESS
+2015\-09\-22 11:05:09,516 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "l\. Deploy uploaded library:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-deploy \-\-adminfs \-\-targets TARGET_NAME \-\-libname LIB_NAME \-\- file UPLOADED_APP_PATH
+.
+.P
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-deploy \-\-adminfs \-\-targets TARGET1_NAME TARGET2_NAME (\.\.\.) \-\-libname LIB_NAME \-\- file UPLOADED_APP_PATH
+.
+.P
+Note: To perform this kind of deployment you need to add \fI\-\-adminfs\fR parameter to the request\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-deploy \-\-libname ssoFilters_v20 \-\-file /ORA/dbs01/wls/home/ssoFilters\-v2\.0\.10\.jar \-\-targets devITDBIMS01_A_1 devITDBIMS01_A_2 \-\-adminfs
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-04 15:20:20,442 \- Logger \- INFO \- Performing \'deploy uploaded lib\' request using: rest
+2015\-09\-22 11:08:05,159 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:08:05,161 \- Logger \- INFO \- Operating request: \'deploy uploaded lib\' using: REST
+Deployed the library \'ssoFilters_v20\'\. : SUCCESS
+2015\-09\-22 11:08:07,444 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "m\. Undeploy an application:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-undeploy \-\-appname APP_NAME
+.
+.P
+Note: \fItarget\fR and \fIfile\fR arguments are accepted by the parser, but will be ignored in execution\.
+.
+.P
+\fBExample:\fR
+.
+.IP "\(bu" 4
+Input: wls\-cli \-\-url \fIhttps://wls\-itdbims01\-dev\-admin\.cern\.ch:21111\fR \-\-undeploy \-\-appname myapp
+.
+.IP "\(bu" 4
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 10:11:15,534 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 10:11:15,536 \- Logger \- INFO \- Operating request: \'undeploy an app\' using: REST
+Undeployed the application \'myapp\'\. : SUCCESS
+2015\-09\-22 10:11:17,828 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.IP "" 0
+.
+.SS "n\. Undeploy a library:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-undeploy \-\-libname APP_NAME
+.
+.P
+Note: \fItarget\fR and \fIfile\fR arguments are accepted by the parser, but will be ignored in execution\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-undeploy \-\-libname ssoFilters_v20
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:06:47,803 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:06:47,805 \- Logger \- INFO \- Operating request: \'undeploy a library\' using: REST
+Undeployed the library \'ssoFilters_v20\'\. : SUCCESS
+2015\-09\-22 11:06:50,846 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "2\.5 <a href=\"/twiki/bin/view/DB/Private/WebLogic\">WebLogic</a> Server Administration"
+.
+.SS "a\. Lock & Edit administration configuration:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-admin_change start
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-admin_change start
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:12:07,675 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:12:07,677 \- Logger \- INFO \- Operating request: \'start admin changes\' using: REST
+Started edit session, please be sure to save and activate your changes once you are done\. : SUCCESS
+2015\-09\-22 11:12:08,371 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "b\. Activate and release administration configuration:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-admin_change activate
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-admin_change activate
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:12:38,366 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:12:38,368 \- Logger \- INFO \- Operating request: \'activate admin changes\' using: REST
+No pending changes exist\. The edit lock is released\. : SUCCESS
+2015\-09\-22 11:12:38,581 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "c\. Cancel administration configuration:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-admin_change cancel
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-admin_change cancel
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:13:13,446 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:13:13,449 \- Logger \- INFO \- Operating request: \'cancel admin changes\' using: REST
+Edit session has been cancelled successfully\. : SUCCESS
+2015\-09\-22 11:13:13,631 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "2\.6 Monitoring"
+.
+.SS "a\. List all deployed applications:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-show apps \-\-long
+.
+.P
+Note: here you can add optional parameter \fI\-\-long\fR that shows additional parameters\. Note2: here you can add optional parameter \fI\-\-servlets\fR that shows servlets and its parameters\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-show apps \-\-long
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:14:17,798 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:14:17,801 \- Logger \- INFO \- Operating request: \'show apps\' using: REST
+
+app1_test1
+ \-planPath : /ORA/dbs01/syscontrol/local/wls/entities/wls_itdbims01_dev/servers/AdminServer/upload/app1_test1/plan/Plan\.xml
+ \-sessionsOpenedTotalCount : 0
+ \-ejbs:
+ \-state : active
+ \-openSessionsCurrentCount : 0
+ \-health:
+    \-state : ok
+ \-applicationType : war
+ \-urls:
+    \-http://db\-13018\.cern\.ch:21110/app
+    \-http://db\-13017\.cern\.ch:21105/app
+ \-displayName : app1_test1
+ \-type : application
+ \-targets:
+    \-devITDBIMS01_A_Cluster
+ \-deploymentPath : servers/AdminServer/upload/app1_test1/app/app\.war
+
+devedh\-console
+ \-planPath : None
+ \-sessionsOpenedTotalCount : 0
+ \-ejbs:
+ \-state : active
+ \-openSessionsCurrentCount : 0
+ \-health:
+    \-state : ok
+ \-applicationType : ear
+ \-urls:
+    \-http://db\-13018\.cern\.ch:21110/Admin
+    \-http://db\-13018\.cern\.ch:21110/Catalog
+    \-http://db\-13018\.cern\.ch:21110/Document/Claims
+    \-http://db\-13018\.cern\.ch:21110/Document/SupplyChain
+    \-http://db\-13018\.cern\.ch:21110/Document/Personnel
+    \-http://db\-13018\.cern\.ch:21110/Document/General
+    \-http://db\-13018\.cern\.ch:21110
+    \-http://db\-13018\.cern\.ch:21110/HRAdmin
+    \-http://db\-13018\.cern\.ch:21110/Hostel
+    \-http://db\-13018\.cern\.ch:21110/ws
+    \-http://db\-13018\.cern\.ch:21110/ws/birt
+    \-http://db\-13017\.cern\.ch:21105/Admin
+    \-http://db\-13017\.cern\.ch:21105/Catalog
+    \-http://db\-13017\.cern\.ch:21105/Document/Claims
+    \-http://db\-13017\.cern\.ch:21105/Document/SupplyChain
+    \-http://db\-13017\.cern\.ch:21105/Document/Personnel
+    \-http://db\-13017\.cern\.ch:21105/Document/General
+    \-http://db\-13017\.cern\.ch:21105
+    \-http://db\-13017\.cern\.ch:21105/HRAdmin
+    \-http://db\-13017\.cern\.ch:21105/Hostel
+    \-http://db\-13017\.cern\.ch:21105/ws
+    \-http://db\-13017\.cern\.ch:21105/ws/birt
+ \-displayName : devedh\-console
+ \-type : application
+ \-targets:
+    \-devITDBIMS01_A_Cluster
+ \-deploymentPath : /ORA/dbs01/wls/home/devedh/devedh\-console\.ear
+
+myapp
+ \-planPath : /ORA/dbs01/syscontrol/local/wls/entities/wls_itdbims01_dev/servers/AdminServer/upload/myapp/plan/Plan\.xml
+ \-sessionsOpenedTotalCount : 0
+ \-ejbs:
+ \-state : active
+ \-openSessionsCurrentCount : 0
+ \-health:
+    \-state : ok
+ \-applicationType : war
+ \-urls:
+    \-http://db\-13017\.cern\.ch:21105/j2eeapplication\-0\.0\.1\-SNAPSHOT
+ \-displayName : myapp
+ \-type : application
+ \-targets:
+    \-devITDBIMS01_A_1
+ \-deploymentPath : servers/AdminServer/upload/myapp/app/j2eeapplication\-0\.0\.1\-SNAPSHOT\.war
+
+2015\-09\-22 11:14:18,107 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "b\. List all deployed libraries:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-show libs
+.
+.P
+Note: here you can add optional parameter \fI\-\-long\fR or \fI\-l\fR that shows additional parameters\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-show libs
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:18:23,974 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:18:23,976 \- Logger \- INFO \- Operating request: \'show libraries\' using: REST
+
+ssoFilters_v20#1\.0@2\.0\.10
+ \-state : active
+ \-targets: devITDBIMS01_A_Cluster , devITDBIMS01_B_Cluster
+2015\-09\-22 11:18:24,466 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+\fBExample with \fIlong\fR:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-show libs  \-l
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:17:36,115 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:17:36,119 \- Logger \- INFO \- Operating request: \'show libraries\' using: REST
+
+ssoFilters_v20#1\.0@2\.0\.10
+ \-displayName : ssoFilters_v20 (1\.0,2\.0\.10)
+ \-type : library
+ \-implVersion : 2\.0\.10
+ \-state : active
+ \-specVersion : 1\.0
+ \-targets:
+    \-devITDBIMS01_A_Cluster
+    \-devITDBIMS01_B_Cluster
+ \-deploymentPath : /ORA/dbs01/wls/home/ssoFilters\-v2\.0\.10\.jar
+2015\-09\-22 11:17:36,801 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "c\. List all <a href=\"/twiki/bin/view/DB/Private/WebLogic\">WebLogic</a> targets (servers and clusters):"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-show targets
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-show targets
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:19:19,155 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:19:19,158 \- Logger \- INFO \- Operating request: \'show targets\' using: REST
+
+AdminServer
+ \-type : server
+
+devITDBIMS01_A_1
+ \-type : server
+
+devITDBIMS01_A_2
+ \-type : server
+
+devITDBIMS01_B_1
+ \-type : server
+
+devITDBIMS01_B_2
+ \-type : server
+
+devITDBIMS01_B_Cluster
+ \-type : cluster
+
+devITDBIMS01_A_Cluster
+ \-type : cluster
+2015\-09\-22 11:19:19,431 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "d\. List all <a href=\"/twiki/bin/view/DB/Private/WebLogic\">WebLogic</a> jobs:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-show jobs
+.
+.P
+Note: here you can add optional parameter \fI\-l\fR or \fI\-\-long\fR that enables output with all parameters\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-show jobs
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:19:49,075 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:19:49,078 \- Logger \- INFO \- Operating request: \'show jobs\' using: REST
+
+ADTR\-1
+ \-description : [Deployer:149026]deploy application my2app on devITDBIMS01_A_Cluster\.
+
+ADTR\-2
+ \-description : [Deployer:149026]deploy application myapp on devITDBIMS01_A_2,devITDBIMS01_A_1\.
+
+ADTR\-3
+ \-description : [Deployer:149026]remove application my2app on devITDBIMS01_A_Cluster\.
+
+ADTR\-4
+ \-description : [Deployer:149026]deploy application myapp on devITDBIMS01_A_2,devITDBIMS01_A_1\.
+
+2015\-09\-22 11:19:49,899 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.P
+\fBExample with \fIlong\fR:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-show jobs \-\-long
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:20:52,600 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:20:52,602 \- Logger \- INFO \- Operating request: \'show jobs\' using: REST
+
+ADTR\-1
+ \-status : deferred
+ \-beginTime : 2015\-09\-22 10:57:55
+ \-endTime : 2015\-09\-22 10:58:02
+ \-type : deployment
+ \-id : 1
+ \-description : [Deployer:149026]deploy application my2app on devITDBIMS01_A_Cluster\.
+
+ADTR\-2
+ \-status : failed
+ \-beginTime : 2015\-09\-22 11:01:16
+ \-endTime : 2015\-09\-22 11:01:19
+ \-type : deployment
+ \-id : 2
+ \-description : [Deployer:149026]deploy application myapp on devITDBIMS01_A_2,devITDBIMS01_A_1\.
+
+ADTR\-3
+ \-status : deferred
+ \-beginTime : 2015\-09\-22 11:01:44
+ \-endTime : 2015\-09\-22 11:01:44
+ \-type : deployment
+ \-id : 3
+ \-description : [Deployer:149026]remove application my2app on devITDBIMS01_A_Cluster\.
+
+ADTR\-4
+ \-status : deferred
+ \-beginTime : 2015\-09\-22 11:01:50
+ \-endTime : 2015\-09\-22 11:01:55
+ \-type : deployment
+ \-id : 4
+ \-description : [Deployer:149026]deploy application myapp on devITDBIMS01_A_2,devITDBIMS01_A_1\.
+
+2015\-09\-22 11:20:54,188 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "e\. Show HTTP access logs of a server:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-logs httpaccess \-\-target SERVER_NAME
+.
+.P
+Note: Here you can use optional option \fI\-\-maxResults X\fR for showing last \fIX\fR logs\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-logs httpaccess \-\-target devITDBIMS01_B_1 \-\-maxResults 3
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:22:37,506 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:22:37,509 \- Logger \- INFO \- Operating request: \'show HTTP access logs\' using: REST
+
+recordId: 12:
+ \-status : 404
+ \-authUser : \-
+ \-remoteUser : \-
+ \-request : GET /favicon\.ico HTTP/1\.1
+ \-host : 128\.141\.98\.40
+
+ recordId: 13:
+ \-status : 404
+ \-authUser : \-
+ \-remoteUser : \-
+ \-request : GET /favicon\.ico HTTP/1\.1
+ \-host : 128\.141\.98\.40
+
+ recordId: 14:
+ \-status : 404
+ \-authUser : \-
+ \-remoteUser : \-
+ \-request : GET /titi HTTP/1\.1
+ \-host : 128\.141\.98\.40
+
+2015\-09\-22 11:22:37,870 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "f\. Show datasource logs of a server:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-logs datasource \-\-target SERVER_NAME
+.
+.P
+Note: Here you can use optional option \fI\-\-maxResults X\fR for showing last \fIX\fR logs\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-logs datasource \-\-target devITDBIMS01_B_1
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:24:46,338 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:24:46,341 \- Logger \- INFO \- Operating request: \'show datasource logs\' using: REST
+Empty list\.
+2015\-09\-22 11:24:46,658 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "g\. Show server logs:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-logs server \-\-target SERVER_NAME
+.
+.P
+Note: Here you can use optional option \fI\-\-maxResults X\fR for showing last \fIX\fR logs\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-logs server \-\-target devITDBIMS01_B_2 \-\-maxResults 3
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:26:12,880 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:26:12,883 \- Logger \- INFO \- Operating request: \'show server logs\' using: REST
+
+ recordId: 31351:
+ \-subSystem : Diagnostics
+ \-contextId :
+ \-severity : Info
+ \-msgId : BEA\-320145
+ \-userId : <WLS Kernel>
+ \-timeStamp : 09/22/15 11:00:55 837
+ \-message : Size based data retirement operation completed on archive EventsDataArchive\. Retired 0 records in 0 ms\.
+
+ recordId: 31352:
+ \-subSystem : Health
+ \-contextId :
+ \-severity : Info
+ \-msgId : BEA\-310002
+ \-userId : <anonymous>
+ \-timeStamp : 09/22/15 11:01:51 589
+ \-message : 71% of the total memory in the server is free\.
+
+ recordId: 31353:
+ \-subSystem : Health
+ \-contextId :
+ \-severity : Info
+ \-msgId : BEA\-310002
+ \-userId : <anonymous>
+ \-timeStamp : 09/22/15 11:06:16 375
+ \-message : 97% of the total memory in the server is free\.
+2015\-09\-22 11:26:17,104 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "h\. Show domain logs:"
+wls\-cli \-\-url ADMIN_SERVER_URL \-\-logs domain
+.
+.P
+Note: Here you can use optional option \fI\-\-maxResults X\fR for showing last \fIX\fR logs\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-logs domain \-\-maxResults 3
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:27:00,528 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:27:00,531 \- Logger \- INFO \- Operating request: \'show domain logs\' using: REST
+
+ recordId: 16013:
+ \-subSystem : Deployer
+ \-contextId :
+ \-severity : Warning
+ \-msgId : BEA\-149003
+ \-userId : weblogic
+ \-timeStamp : 09/22/15 10:57:21 860
+ \-message : Unable to access application source information in "/ORA/dbs01/syscontrol/projects/wls/scripts/rest/cerndb\-infra\-wls_rest/src/j2eeapplication\-2\.0\.1\-SNAPSHOT\.war" for application "my2app"\. The specific error is: No application files exist\.
+
+ recordId: 16014:
+ \-subSystem : Deployer
+ \-contextId :
+ \-severity : Warning
+ \-msgId : BEA\-149124
+ \-userId : weblogic
+ \-timeStamp : 09/22/15 10:57:21 919
+ \-message : Failures were detected while initiating deploy task for application "my2app"\. Error is: "[Deployer:149003]Unable to access application source information in "/ORA/dbs01/syscontrol/projects/wls/scripts/rest/cerndb\-infra\-wls_rest/src/j2eeapplication\-2\.0\.1\-SNAPSHOT\.war" for application "my2app"\. The specific error is: No application files exist\."
+
+ recordId: 16015:
+ \-subSystem : Deployer
+ \-contextId :
+ \-severity : Warning
+ \-msgId : BEA\-149004
+ \-userId : <WLS Kernel>
+ \-timeStamp : 09/22/15 11:01:19 067
+ \-message : Failures were detected while initiating deploy task for application "myapp"\.
+2015\-09\-22 11:27:29,927 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SH "3\. Optional arguments"
+.
+.SS "a\. help"
+wls\-cli \-h
+.
+.P
+wls\-cli \-\-help
+.
+.P
+Use \fI\-h\fR or \fI\-\-help\fR for showing help screen\.
+.
+.SS "b\. async"
+wls\-cli {REQUEST} \-\-async
+.
+.P
+Use \fI\-\-async\fR for making asynchronous operation\.
+.
+.SS "c\. noforce"
+wls\-cli {REQUEST} \-\-noforce
+.
+.P
+All operations are forced from default\. Use \fI\-\-noforce\fR for resigning from forcing operation\.
+.
+.SS "d\. raw"
+wls\-cli {REQUEST} \-\-raw
+.
+.P
+Use \fI\-\-raw\fR for printing default json as an output\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status server \-\-target AdminServer \-\-raw
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:28:27,043 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:28:27,046 \- Logger \- INFO \- Operating request: \'status servers\' using: REST
+{
+    "item": {
+        "activeHttpSessionCount": 0,
+        "activeThreadCount": 7,
+        "health": {
+            "state": "ok"
+        },
+        "heapFreeCurrent": 1737745256,
+        "heapSizeCurrent": 2063597568,
+        "jvmProcessorLoad": 0,
+        "name": "AdminServer",
+        "state": "running",
+        "usedPhysicalMemory": 8101683200
+    },
+    "links": [
+        {
+            "rel": "parent",
+            "uri": "https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111/management/wls/latest/servers"
+        },
+        {
+            "rel": "logs",
+            "uri": "https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111/management/wls/latest/servers/id/AdminServer/logs"
+        }
+    ]
+}
+2015\-09\-22 11:28:28,444 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "e\. v / verbose"
+wls\-cli {REQUEST} \-v
+.
+.P
+wls\-cli {REQUEST} \-\-verbose
+.
+.P
+Use \fI\-v\fR or \fI\-\-verbose\fR for printing debug communicates of a Tool\.
+.
+.P
+\fBExample:\fR
+.
+.P
+* Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status server \-\-target AdminServer \-v
+.
+.fi
+.
+.IP "" 0
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:31:55,120 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:31:55,122 \- Logger \- DEBUG \- Authenticating\.
+2015\-09\-22 11:31:55,122 \- Logger \- DEBUG \- Preparing model\.
+2015\-09\-22 11:31:55,122 \- Logger \- DEBUG \- Preparing request\.
+2015\-09\-22 11:31:55,123 \- Logger \- INFO \- Operating request: \'status servers\' using: REST
+AdminServer
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+2015\-09\-22 11:31:55,496 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "f\. v2 / verbose2"
+wls\-cli {REQUEST} \-v2
+.
+.P
+wls\-cli {REQUEST} \-\-verbose2
+.
+.P
+Second level of verbose mode\. Use \fI\-v2\fR or \fI\-\-verbose2\fR for printing curl communicates in a verbose mode and debug communicates of a Tool\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-status server \-\-target AdminServer \-v2
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:29:40,699 \- Logger \- INFO \- Started parsing request\.
+2015\-09\-22 11:29:40,702 \- Logger \- DEBUG \- Authenticating\.
+2015\-09\-22 11:29:40,702 \- Logger \- DEBUG \- Preparing model\.
+2015\-09\-22 11:29:40,702 \- Logger \- DEBUG \- Preparing request\.
+2015\-09\-22 11:29:40,703 \- Logger \- INFO \- Operating request: \'status servers\' using: REST
+* About to connect() to wls\-itdbims01\-dev\-admin\.cern\.ch port 21111 (#0)
+*   Trying 10\.19\.2\.35\.\.\. * connected
+* Connected to wls\-itdbims01\-dev\-admin\.cern\.ch (10\.19\.2\.35) port 21111 (#0)
+* Initializing NSS with certpath: sql:/etc/pki/nssdb
+*   CAfile: /ORA/dbs01/syscontrol/projects/wls/scripts/rest/cerndb\-infra\-wls_rest/src/model/data_storage/\.\./\.\./\.\./cert/CERNDB\-bundle\.crt
+  CApath: none
+* SSL connection using TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+* Server certificate:
+*       subject: CN=*\.cern\.ch,OU=PremiumSSL Legacy Wildcard,OU=Issued through Organisation Européenne pour la Recherche Nucléai,O=Organisation Européenne pour la Recherche Nucléaire \e"CERN\e",STREET=Route de Meyrin 385,L=Meyrin,ST=Geneva,postalCode=1217,C=CH
+*       start date: Mar 12 00:00:00 2014 GMT
+*       expire date: Mar 11 23:59:59 2016 GMT
+*       common name: *\.cern\.ch
+*       issuer: CN=COMODO High\-Assurance Secure Server CA,O=COMODO CA Limited,L=Salford,ST=Greater Manchester,C=GB
+* Server auth using Basic with user \'weblogic\'
+> GET /management/wls/latest/servers/id/AdminServer/ HTTP/1\.1
+Authorization: Basic XXXXXXXXXXXXXXXXXXXXXXX=
+User\-Agent: PycURL/7\.19\.7
+Host: wls\-itdbims01\-dev\-admin\.cern\.ch:21111
+X\-Requested\-By: MyClient
+Accept: application/json
+
+< HTTP/1\.1 200 OK
+< Date: Tue, 22 Sep 2015 09:29:40 GMT
+< Content\-Length: 684
+< Content\-Type: application/json
+< Set\-Cookie: JSESSIONID=jd30Yx74MuNyUdwRXp5exBYW0e1SuifWH_LSJ9mrv1ML2cYQkrq1!\-2066389595; path=/; HttpOnly
+< Set\-Cookie: _WL_AUTHCOOKIE_JSESSIONID=5F7n9WrSXDNRYz0g\.tco; path=/; secure; HttpOnly
+<
+* Connection #0 to host wls\-itdbims01\-dev\-admin\.cern\.ch left intact
+* Closing connection #0
+AdminServer
+ \-state: running
+ \-health: {u\'state\': u\'ok\'}
+
+2015\-09\-22 11:29:41,056 \- Logger \- INFO \- Finish\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "g\. nm"
+wls\-cli {SERVER START/STOP REQUEST} \-\-nm
+.
+.P
+From default all operations are executed with REST API\. Use \fI\-\-nm\fR for executing requested operation with a Node Manager\. Not every operations are permitted to be executed with a NM\. Note1: Use only from machine with Admin Server\. Note2: Option based on SSH Node Manager CERN specific implementation\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli \-\-url https://wls\-itdbims01\-dev\-admin\.cern\.ch:21111 \-\-stop server \-\-target AdminServer \-\-nm
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-04 15:44:34,618 \- Logger \- INFO \- Performing \'start servers\' request using: nm
+Started the server \'AdminServer\'\. : SUCCESS\.
+2015\-09\-04 15:48:18,694 \- Logger \- INFO \- Finished\.
+Status code: 0
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "h\. maxResults"
+wls\-cli {LOGS REQUEST} \-\-maxResults X
+.
+.P
+Use \fI\-\-maxResults X\fR for showing last \fIX\fR logs\.
+.
+.SS "i\. version"
+wls\-cli \-\-version
+.
+.P
+Use \fI\-\-version\fR for checking CLI Tool version\.
+.
+.P
+\fBExample:\fR
+.
+.TP
+Input:
+.
+.IP "" 4
+.
+.nf
+
+ wls\-cli  \-\-version
+.
+.fi
+.
+.IP "" 0
+
+.
+.TP
+Output:
+.
+.IP "" 4
+.
+.nf
+
+2015\-09\-22 11:40:34,327 \- Logger \- INFO \- Started parsing request\.
+WebLogic Server 12\.1\.3 CLI REST wrapper v4
+.
+.fi
+.
+.IP "" 0
+
+.
+.SS "j\. operationTimeout"
+wls\-cli {REQUEST} \-\-operationTimeout X
+.
+.P
+Use \fI\-\-operationTimeout X\fR for setting \fIX\fR seconds for Curl request timeout\. Default time is 10 minutes\.
+.
+.SS "k\. l / long"
+wls\-cli {SERVER STATUS/APPS/JOBS REQUEST} \-l
+.
+.P
+wls\-cli {SERVER STATUS/APPS/JOBS REQUEST} \-\-long
+.
+.P
+Use \fI\-l\fR or \fI\-\-long\fR for printing full status parameters for server / apps / libs / jobs\.
