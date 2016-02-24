@@ -36,6 +36,12 @@ class DeploymentManager(object):
             operation == Operation.Deployment.DEPLOY_UPLOADED_LIB:
             uri = self.model.get_uri(operation)
             
+        elif operation == Operation.Deployment.REDEPLOY_UPLOADED_APP or \
+            operation == Operation.Deployment.REDEPLOY_UPLOADED_LIB or \
+            operation == Operation.Deployment.REDEPLOY_LOCAL_APP or \
+            operation == Operation.Deployment.REDEPLOY_LOCAL_LIB:
+            uri = self.model.get_uri(operation, deployment_name) + "redeploy"
+            
         else:
             uri = self.model.get_uri(operation, deployment_name)
         data_contract = self.create_curl_data(uri, operation)
@@ -58,20 +64,34 @@ class DeploymentManager(object):
         data_contract.cookie_jar = data_storage.cookie_path
         data_contract.netrc = data_storage.netrc
         data_contract.ssl_verifypeer = True if not data_storage.test else False
+        
+        # POST Accepting "application/json"
         if operation == Operation.Deployment.DEPLOY_UPLOADED_APP or \
             operation == Operation.Deployment.DEPLOY_UPLOADED_LIB:
             data_contract.set_postfield(data_storage.deployment_name, \
                                         data_storage.source, data_storage.target)
                                  
+        # POST Accepting "multipart/form-data"
         elif operation == Operation.Deployment.DEPLOY_LOCAL_APP or \
             operation == Operation.Deployment.DEPLOY_LOCAL_LIB:
             data_contract.set_form_file(data_storage.deployment_name, \
                 self.model.data_storage.source, data_storage.target)
             
+        # POST Accepting "multipart/form-data"
+        elif operation == Operation.Deployment.REDEPLOY_LOCAL_APP or \
+            operation == Operation.Deployment.REDEPLOY_LOCAL_LIB:
+            data_contract.set_form_file(None, \
+                self.model.data_storage.source, None)
+        
+        # POST Accepting "application/json"
+        elif operation == Operation.Deployment.REDEPLOY_UPLOADED_APP or \
+            operation == Operation.Deployment.REDEPLOY_UPLOADED_LIB:
+            data_contract.set_empty_postfield()
+            
+        # DELETE
         elif operation == Operation.Deployment.UNDEPLOY_APP or \
             operation == Operation.Deployment.UNDEPLOY_LIB:
             data_contract.set_delete()
-        
         
         return data_contract
     

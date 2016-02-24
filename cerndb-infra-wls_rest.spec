@@ -19,8 +19,8 @@
 # Begin customised part
 Summary:	Weblogic REST
 Name:		cerndb-infra-wls_rest
-Version:	0.9
-Release:	2%{?dist}
+Version:	1.1
+Release:	1%{?dist}
 License:	GPL
 BuildArch:	noarch
 Group:		Development/Tools

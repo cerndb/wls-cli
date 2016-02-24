@@ -16,10 +16,11 @@ Created on May 29, 2015
 
 from wlscli.controller.console.parsing_rules import ParsingRulesSetter
 from wlscli.controller.console.argument_validation import ArgumentValidator
-from wlscli.controller.console.argument_interpretation import ArgumentInterpretator
+from wlscli.controller.console.argument_interpretation import ArgumentInterpreter
 from wlscli.common.decorator import Decorator
 from wlscli.common.utils import Operation
 from wlscli.common.utils import TargetType
+from wlscli.common.utils import MessageType
 
 class ConsoleController(Decorator):
     '''
@@ -31,7 +32,7 @@ class ConsoleController(Decorator):
         self.decorated = decorated
         self.parser = ParsingRulesSetter()
         self.validator = ArgumentValidator(self.parser.parser)
-        self.interpretator = ArgumentInterpretator()
+        self.interpreter = ArgumentInterpreter()
         self.view_model = decorated.model.data_storage
     
     def get_request(self):
@@ -39,14 +40,17 @@ class ConsoleController(Decorator):
         command = ui_event.command
         if len(command) == 0:
             raise Exception("No arguments in command.")
-        
         return self.parse(command)
     
     def parse(self, command):
         '''Parsing, validating and interpretating user request'''
         args = self.parser.set_parser_rules(command)
-        event = self.interpretator.interpretate_args(self.view_model, args, command)
-        self.validator.validate_args(event.operation, args, command)
+        try:
+            event = self.interpreter.interpret_args(self.view_model, args, command)
+            self.validator.validate_args(event.operation, args, command)
+        except Exception as exception: 
+            self.decorated.model.update(MessageType.ERROR, str(exception))
+            return 1
         event.view_model = self.view_model
         
         admin_start = event.operation == Operation.Server.START and \

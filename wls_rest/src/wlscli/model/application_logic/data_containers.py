@@ -15,7 +15,6 @@ Created on Jun 2, 2015
 '''
 
 from wlscli.common import Constans
-import os
 
 class UserProperties(object):
     '''
@@ -46,12 +45,12 @@ class SettingsProperties(object):
     '''
     test = False
     is_get_domain_data_op = False
-    timeout = 600
-    connect_timeout = 2
+    timeout = Constans.TIMEOUT
+    connect_timeout = Constans.CONNECT_TIMEOUT
     version = Constans.TOOL_VERSION
     adminserver_name = Constans.ADMINSERVER_NAME
-    maxResults = 100
-    forceOperation = True
+    maxResults = Constans.MAX_RESULTS
+    forceOperation = Constans.FORCE_OPERATION
         
 class DomainProperties(object):
     '''
@@ -73,20 +72,16 @@ class CERNSpecificProperties(object):
     Class storing properties that concern domain
     '''
     syscontrol_top = None
-    syscontrol_top_script = "/etc/init.d/syscontrol"
-    syscontrol_top_arguments = " sc_configuration_directory"
-    get_passwd_path = "/projects/systools/bin/get_passwd"
-    get_passwd_arguments = " password_weblogic_"
-    wlstab_path = "/bin/wlstab.sh"
-    wlstab_arguments = " sc_entity server_name cluster_name " + \
-        "server_listen_address server_ssl_listen_port " + \
-        "domain_directory"
-    webtab_path = "/bin/webtab.sh"
-    webtab_arguments = " sc_installation_directory2"
+    syscontrol_top_script = Constans.syscontrol_top_script
+    syscontrol_top_arguments = Constans.syscontrol_top_arguments
+    get_passwd_path = Constans.get_passwd_path
+    get_passwd_arguments = Constans.get_passwd_arguments
+    wlstab_path = Constans.wlstab_path
+    wlstab_arguments = Constans.wlstab_arguments
+    webtab_path = Constans.webtab_path
+    webtab_arguments = Constans.webtab_arguments
     domain_name = None
     domain_dir = None
     wls_dir = None
-    #curl_certs = "/ORA/dbs01/syscontrol/etc/certs/ca/CERNDB-bundle.crt"
-    curl_certs = os.path.join(os.path.split(__file__)[0], \
-                              '../../../../cert/certificate.crt')
-    CERN_username = "weblogic"
+    curl_certs = Constans.CURL_CERTS
+    CERN_username = Constans.CERN_USERNAME

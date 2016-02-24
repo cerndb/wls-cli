@@ -13,20 +13,22 @@
 Created on May 28, 2015
 @author: Konrad Kaczkowski
 '''
-import sys
-sys.path.append('../src')
+import sys, inspect, os
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+sys.path.insert(0, current_dir + "/../src/")
 from wlscli.controller import ConsoleController
 from wlscli.controller import Controller
 from wlscli.model import Model
 from wlscli.view import ConsoleUI
+from wlscli.common.utils import bcolors
 from Queue import Queue
-import os
 
 def main():
     '''
     Main method
     '''
-    check_if_user_is_root()
+    if check_if_user_is_root() != 0:
+        return 1
     
     queue = Queue()
     view = ConsoleUI(queue, sys.argv[1:])
@@ -34,13 +36,16 @@ def main():
     
     # decorator design pattern
     controller = ConsoleController(Controller(model, view, queue))
-    controller.run()
-    
+    try:
+    	controller.run()
+    except Exception as exception:
+        print "ERROR: " + bcolors.FAIL + str(exception) + bcolors.ENDC 
+
 def check_if_user_is_root():
     if os.geteuid() == 0:
-        print "ERROR: please do not run as root, Sherlock"
-        exit(1)
-    pass
+        print "ERROR: " + bcolors.FAIL + "ERROR: please do not run as root." + bcolors.ENDC
+	return 1
+    return 0
 
 if __name__ == '__main__':
     main()

@@ -113,6 +113,15 @@ class TargetType(object):
     LIB = 4
     NO_TARGET = 5
     
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
     
 class Mockup(object):
     '''
@@ -121,6 +130,7 @@ class Mockup(object):
     def __init__(self, message_type, message):
         ''' Constructor '''
         self.raw = False
+        self.test = False
         self.servlets = False
         self.long_print = False
         self.status_code = -1

@@ -20,6 +20,7 @@ from wlscli.common.utils import MessageType
 from wlscli.common.utils import Mockup
 import json
 import tempfile
+import os, sys, inspect
 
 def get_output(file_path):
     file_to_open = open(file_path, 'r')
@@ -28,6 +29,8 @@ def get_output(file_path):
     return output
 
 def perform_test(file_path, view):
+    f = open(os.devnull, 'w')
+    sys.stdout = f
     output = get_output(file_path)
     mockup = Mockup(MessageType.JSON, output)
     
@@ -50,46 +53,47 @@ class ViewServersCase(unittest.TestCase):
         pass
         
     def test_status_server(self):
-        status = perform_test('out/status_server_success.out', \
+        status = perform_test(self.current_dir + '/out/status_server_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
     def test_start_server(self):
-        status = perform_test('out/start_server_success.out', \
+        status = perform_test(self.current_dir + '/out/start_server_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/start_server_failure.out', \
+        status = perform_test(self.current_dir + '/out/start_server_failure.out', \
                                    self.view)
         self.assertEqual(status, True)       
             
     def test_restart_server(self):
-        status = perform_test('out/restart_server_success.out', \
+        status = perform_test(self.current_dir + '/out/restart_server_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
             
     def test_suspend_server(self):
-        status = perform_test('out/suspend_server_success.out', \
+        status = perform_test(self.current_dir + '/out/suspend_server_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
             
     def test_resume_server(self):
-        status = perform_test('out/resume_server_success.out', \
+        status = perform_test(self.current_dir + '/out/resume_server_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
     
     def test_stop_server(self):
-        status = perform_test('out/stop_server_success.out', \
+        status = perform_test(self.current_dir + '/out/stop_server_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/stop_server_failure.out', \
+        status = perform_test(self.current_dir + '/out/stop_server_failure.out', \
                                    self.view)
         self.assertEqual(status, True)  
         
     @staticmethod
     def set_up():
-        ViewServersCase.view = ConsoleUI(Queue())       
+        ViewServersCase.view = ConsoleUI(Queue())  
+        ViewServersCase.current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))     
         
 class ViewShowCase(unittest.TestCase):
     """
@@ -106,24 +110,25 @@ class ViewShowCase(unittest.TestCase):
         self.view.test_file.close()
             
     def test_list_targets(self):
-        status = perform_test('out/show_targets_success.out', \
+        status = perform_test(self.current_dir + '/out/show_targets_success.out', \
                                    self.view)
         self.assertEqual(status, True)     
             
     def test_list_libraries(self):
-        status = perform_test('out/show_libraries_success.out', \
+        status = perform_test(self.current_dir + '/out/show_libraries_success.out', \
                                    self.view)
         self.assertEqual(status, True)     
             
     def test_list_apps(self):
-        status = perform_test('out/show_apps_success.out', \
+        status = perform_test(self.current_dir + '/out/show_apps_success.out', \
                                    self.view)
         self.assertEqual(status, True)     
     
     @staticmethod
     def set_up():
         """Set up for all tests - executed only once"""
-        ViewShowCase.view = ConsoleUI(Queue())       
+        ViewShowCase.view = ConsoleUI(Queue())   
+        ViewShowCase.current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))         
  
  
 class ViewAdminCase(unittest.TestCase):
@@ -141,28 +146,29 @@ class ViewAdminCase(unittest.TestCase):
         self.view.test_file.close()
             
     def test_start_edit(self):
-        status = perform_test('out/admin_start_success.out', \
+        status = perform_test(self.current_dir + '/out/admin_start_success.out', \
                                    self.view)
         self.assertEqual(status, True)     
             
     def test_cancel_edit(self):
-        status = perform_test('out/admin_cancel_success.out', \
+        status = perform_test(self.current_dir + '/out/admin_cancel_success.out', \
                                    self.view)
         self.assertEqual(status, True)     
             
     def test_activate(self):
-        status = perform_test('out/admin_activate_success.out', \
+        status = perform_test(self.current_dir + '/out/admin_activate_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/admin_activate_failure.out', \
+        status = perform_test(self.current_dir + '/out/admin_activate_failure.out', \
                                    self.view)
         self.assertEqual(status, True) 
                   
     @staticmethod
     def set_up():
         """Set up for all tests - executed only once"""
-        ViewAdminCase.view = ConsoleUI(Queue())       
+        ViewAdminCase.view = ConsoleUI(Queue())     
+        ViewAdminCase.current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))           
   
  
 class ViewLogsCase(unittest.TestCase):
@@ -180,22 +186,22 @@ class ViewLogsCase(unittest.TestCase):
         self.view.test_file.close()
             
     def test_httpaccesslog(self):
-        status = perform_test('out/log_httpaccess_success.out', \
+        status = perform_test(self.current_dir + '/out/log_httpaccess_success.out', \
                                    self.view)
         self.assertEqual(status, True)
             
     def test_datasourcelog(self):
-        status = perform_test('out/log_datasource_success.out', \
+        status = perform_test(self.current_dir + '/out/log_datasource_success.out', \
                                    self.view)
         self.assertEqual(status, True)
             
     def test_serverlog(self):
-        status = perform_test('out/log_server_success.out', \
+        status = perform_test(self.current_dir + '/out/log_server_success.out', \
                                    self.view)
         self.assertEqual(status, True)
             
     def test_domainlog(self):
-        status = perform_test('out/log_domain_success.out', \
+        status = perform_test(self.current_dir + '/out/log_domain_success.out', \
                                    self.view)
         self.assertEqual(status, True)
 
@@ -203,7 +209,8 @@ class ViewLogsCase(unittest.TestCase):
     @staticmethod
     def set_up():
         """Set up for all tests - executed only once"""
-        ViewLogsCase.view = ConsoleUI(Queue())       
+        ViewLogsCase.view = ConsoleUI(Queue())   
+        ViewLogsCase.current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))               
         
 class ViewAppsCase(unittest.TestCase):
     """
@@ -220,25 +227,25 @@ class ViewAppsCase(unittest.TestCase):
         self.view.test_file.close()
             
     def test_start_app(self):
-        status = perform_test('out/app_start_success.out', \
+        status = perform_test(self.current_dir + '/out/app_start_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/app_start_failure.out', \
+        status = perform_test(self.current_dir + '/out/app_start_failure.out', \
                                    self.view)
         self.assertEqual(status, True)
             
     def test_stop_app(self):
-        status = perform_test('out/app_stop_success.out', \
+        status = perform_test(self.current_dir + '/out/app_stop_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/app_stop_failure.out', \
+        status = perform_test(self.current_dir + '/out/app_stop_failure.out', \
                                    self.view)
         self.assertEqual(status, True)
             
     def test_status_app(self):
-        status = perform_test('out/app_status_success.out', \
+        status = perform_test(self.current_dir + '/out/app_status_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
             
@@ -246,67 +253,68 @@ class ViewAppsCase(unittest.TestCase):
         pass
             
     def test_update_app(self):
-        status = perform_test('out/app_update_success.out', \
+        status = perform_test(self.current_dir + '/out/app_update_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
                       
     def test_deploy_app_local(self):
-        status = perform_test('out/app_deploy_local_success.out', \
+        status = perform_test(self.current_dir + '/out/app_deploy_local_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/app_deploy_local_failure.out', \
+        status = perform_test(self.current_dir + '/out/app_deploy_local_failure.out', \
                                    self.view)
         self.assertEqual(status, True)
             
     def test_deploy_app_uploaded(self):
-        status = perform_test('out/app_deploy_uploaded_success.out', \
+        status = perform_test(self.current_dir + '/out/app_deploy_uploaded_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/app_deploy_uploaded_failure.out', \
+        status = perform_test(self.current_dir + '/out/app_deploy_uploaded_failure.out', \
                                    self.view)
         self.assertEqual(status, True)
     
     def test_deploy_lib_local(self):
-        status = perform_test('out/lib_deploy_local_success.out', \
+        status = perform_test(self.current_dir + '/out/lib_deploy_local_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/lib_deploy_local_failure.out', \
+        status = perform_test(self.current_dir + '/out/lib_deploy_local_failure.out', \
                                    self.view)
         self.assertEqual(status, True)
             
     def test_deploy_lib_uploaded(self):
-        status = perform_test('out/lib_deploy_uploaded_success.out', \
+        status = perform_test(self.current_dir + '/out/lib_deploy_uploaded_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/lib_deploy_uploaded_failure.out', \
+        status = perform_test(self.current_dir + '/out/lib_deploy_uploaded_failure.out', \
                                    self.view)
         self.assertEqual(status, True)     
     
     def test_undeploy_app(self):
-        status = perform_test('out/app_undeploy_success.out', \
+        status = perform_test(self.current_dir + '/out/app_undeploy_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/app_undeploy_failure.out', \
+        status = perform_test(self.current_dir + '/out/app_undeploy_failure.out', \
                                    self.view)
         self.assertEqual(status, True) 
             
     def test_undeploy_lib(self):
-        status = perform_test('out/lib_undeploy_success.out', \
+        status = perform_test(self.current_dir + '/out/lib_undeploy_success.out', \
                                    self.view)
         self.assertEqual(status, True)       
         
-        status = perform_test('out/lib_undeploy_failure.out', \
+        status = perform_test(self.current_dir + '/out/lib_undeploy_failure.out', \
                                    self.view)
         self.assertEqual(status, True)      
         
     @staticmethod
     def set_up():
         """Set up for all tests - executed only once"""
-        ViewAppsCase.view = ConsoleUI(Queue())       
+        ViewAppsCase.view = ConsoleUI(Queue()) 
+        ViewAppsCase.current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))         
 
         

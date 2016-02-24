@@ -14,7 +14,7 @@ Created on Oct 26, 2015
 @author: Konrad Kaczkowski
 '''
 
-from wlscli.model.data import data_containers
+from wlscli.model.application_logic import data_containers
 
 class DataStorage(object):
     '''

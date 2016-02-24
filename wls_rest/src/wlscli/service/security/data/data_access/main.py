@@ -21,14 +21,13 @@ class PasswdGetter(object):
     '''
     
     def get_CERN_specific_data(self, data_wrapper):
-        
         syscontrol_top_dao = dao.CERNSyscontrolTopDAO(data_wrapper)
-        password_dao = dao.CERNPasswordDAO(data_wrapper)
+        cern_password_dao = dao.CERNPasswordDAO(data_wrapper)
         wlstab_dao = dao.CERNwlstabDAO(data_wrapper)
         webtab_dao = dao.CERNwebtabDAO(data_wrapper)
         
         syscontrol_top_dao.get_data()
-        password_dao.get_data()
+        cern_password_dao.get_data()
         wlstab_dao.get_data()
         webtab_dao.get_data()
         

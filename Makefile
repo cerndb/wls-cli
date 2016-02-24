@@ -24,7 +24,7 @@ sources:
 	#tar cvzf $(TARFILE) --exclude-vcs --transform 's,^,$(PKGID)/,' *
 	rm -rf /tmp/$(PKGID)
 	mkdir /tmp/$(PKGID)
-	cp -rv * /tmp/$(PKGID)/
+	cp -rv * /tmp/$(PKGID)/ > /dev/null 2>&1
 	pwd ; ls -l
 	cd /tmp ; tar --exclude .svn --exclude .git --exclude .gitkeep -czf $(TARFILE) $(PKGID)
 	mv /tmp/$(TARFILE) .
@@ -39,10 +39,12 @@ srpm:   all
 	rpmbuild -bs --define '_sourcedir $(PWD)' ${SPECFILE}
 
 rpm:    all
-	rpmbuild -ba --define '_sourcedir $(PWD)' ${SPECFILE}
+	rpmbuild -ba --quiet --define '_sourcedir $(PWD)' ${SPECFILE}
 
 scratch:
 	koji build db6 --nowait --scratch  ${REPOURL}${REPOPREFIX}/${PKGNAME}.git#master
+	koji build db7 --nowait --scratch  ${REPOURL}${REPOPREFIX}/${PKGNAME}.git#master
 
 build:
 	koji build db6 --nowait ${REPOURL}${REPOPREFIX}/${PKGNAME}.git#master
+	koji build db7 --nowait ${REPOURL}${REPOPREFIX}/${PKGNAME}.git#master

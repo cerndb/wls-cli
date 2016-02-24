@@ -26,23 +26,23 @@ import ssl
 import json
 from Queue import Queue
 #from model.data_storage import DataWrapper
-from wlscli.model.data import DataStorage
+from wlscli.model.application_logic import DataStorage
 from wlscli.common.event import ConsoleUIEvent
+import os, inspect
 
 class WebLogicMock(object):
     
     def __init__(self, host, port):
         ''' Constructor '''
         try:
+            current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
             WebLogicDummyHandler.set_up()
             self.server = WebLogicDummyHTTPServer((host, port), WebLogicDummyHandler)
             self.server.socket = ssl.wrap_socket \
             (self.server.socket, \
-             certfile="/home/kkaczkow/development/workspace/New-cerndb-infra-wls_rest/cert/server.crt", \
-             keyfile="/home/kkaczkow/development/workspace/New-cerndb-infra-wls_rest/cert/server.key", \
+             certfile = current_dir + "/../../../cert/server.crt", \
+             keyfile = current_dir + "/../../../cert/server.key", \
              server_side = True)
-            #certfile="/ORA/dbs01/syscontrol/projects/wls/scripts/rest/cerndb-infra-wls_rest/cert/server.crt", \
-            #keyfile="/ORA/dbs01/syscontrol/projects/wls/scripts/rest/cerndb-infra-wls_rest/cert/server.key", \
             
         except socket.error as exception:
             print "ERROR: " + str(exception)
@@ -125,15 +125,18 @@ class WebLogicDummyHandler(BaseHTTPRequestHandler):
         urls_to_check.append("/management/wls/latest/changeManager/startEdit")
         urls_to_check.append("/management/wls/latest/changeManager/cancelEdit")
         urls_to_check.append("/management/wls/latest/changeManager/activate")
-        urls_to_check.append("/management/wls/latest/deployments/application")
-        urls_to_check.append("/management/wls/latest/deployments/library")
+        urls_to_check.append("/management/wls/latest/deployments/application/")
+        urls_to_check.append("/management/wls/latest/deployments/library/")
+        
         #for cluster in self.data_wrapper.clusters:
-        #    for server in self.data_wrapper.clusters[cluster]:    
+        #    for server in self.data_wrapper.clusters[cluster]: 
         urls_to_check.append("/management/wls/latest/servers/id/devITDBIMS01_A_1/start")
         urls_to_check.append("/management/wls/latest/servers/id/devITDBIMS01_A_1/shutdown")
         urls_to_check.append("/management/wls/latest/servers/id/devITDBIMS01_A_1/restart")
         urls_to_check.append("/management/wls/latest/servers/id/devITDBIMS01_A_1/suspend")
         urls_to_check.append("/management/wls/latest/servers/id/devITDBIMS01_A_1/resume")
+        urls_to_check.append("/management/wls/" +\
+                             "latest/deployments/application/id/myapp/")
         urls_to_check.append("/management/wls/" +\
                              "latest/deployments/application/id/myapp/start")
         urls_to_check.append("/management/wls/" +\
@@ -144,42 +147,60 @@ class WebLogicDummyHandler(BaseHTTPRequestHandler):
                              "latest/deployments/application/id/myapp/update")
         urls_to_check.append("/management/wls/" +\
                              "latest/deployments/library/id/mylib/redeploy")
+        urls_to_check.append("/management/wls/" +\
+                             "latest/deployments/library/id/mylib/")
         return urls_to_check
     
     def create_DELETE_urls_to_check(self):
         urls_to_check = list()
+        urls_to_check.append("/management/wls/" +\
+                             "latest/deployments/application/id/myapp/")
+        urls_to_check.append("/management/wls/" +\
+                             "latest/deployments/library/id/mylib/")
         urls_to_check.append("/management/wls/latest/deployments/library/id/mylib")
         urls_to_check.append("/management/wls/latest/deployments/application/id/myapp")
         return urls_to_check
 
     def create_GET_urls_to_check(self):
         urls_to_check = list()
-        urls_to_check.append("/management/wls/latest/servers/id/AdminServer")
-        urls_to_check.append("/management/wls/latest/targets")
-        urls_to_check.append("/management/wls/latest/deployments/library")
-        urls_to_check.append("/management/wls/latest/deployments/application")
+        urls_to_check.append("/management/wls/" +\
+                             "latest/deployments/application/id/myapp/")
+        urls_to_check.append("/management/wls/latest/servers/id/AdminServer/")
+        urls_to_check.append("/management/wls/latest/targets/")
+        urls_to_check.append("/management/wls/latest/deployments/library/")
+        urls_to_check.append("/management/wls/latest/deployments/application/")
         #for cluster in self.data_wrapper.clusters:
         #    for server in self.data_wrapper.clusters[cluster]:    
         urls_to_check.append("/management/wls/latest/servers/id/devITDBIMS01_A_1")
         urls_to_check.append("/management/wls/" +\
                              "latest/deployments/application/id/myapp")
+        urls_to_check.append("/management/wls/" +\
+                             "latest/servers/id/devITDBIMS01_A_1/logs/id/ServerLog")
+        urls_to_check.append("/management/wls/" +\
+                             "latest/servers/id/AdminServer/logs/id/DomainLog")
+        urls_to_check.append("/management/wls/" +\
+                             "latest/servers/id/devITDBIMS01_A_1/logs/id/DataSourceLog")
+        urls_to_check.append("/management/wls/" +\
+                             "latest/servers/id/devITDBIMS01_A_1/logs/id/HTTPAccessLog")
         return urls_to_check
 
     def parse_GET(self, parsed_path):
         urlsToCheck = self.create_GET_urls_to_check()
-        if any(url in parsed_path for url in urlsToCheck):
+        if any(item == parsed_path for item in urlsToCheck):
             return 0
         return 1
     
     def parse_DELETE(self, parsed_path):
         urlsToCheck = self.create_DELETE_urls_to_check()
-        if any(url in parsed_path for url in urlsToCheck):
+        
+        if any(item == parsed_path for item in urlsToCheck):
             return 0
         return 1
 
     def parse_POST(self, parsed_path):
         urlsToCheck = self.create_POST_urls_to_check()
-        if any(url in parsed_path for url in urlsToCheck):
+        
+        if any(item == parsed_path for item in urlsToCheck):
             return 0
         return 1
     

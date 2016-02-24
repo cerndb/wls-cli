@@ -17,6 +17,7 @@ Created on Oct 31, 2015
 from wlscli.service.curl import CurlDataContract
 from wlscli.service.curl import CurlManager
 from wlscli.common.utils import MessageType
+from wlscli.common.utils import Operation
 
 class ApplicationManager(object):
     def __init__(self, model):
@@ -25,12 +26,11 @@ class ApplicationManager(object):
         self.curl_manager = CurlManager()
         
     def run(self, operation):
-        
         target = self.model.data_storage.target 
         target = target if target is not None else self.model.data_storage.deployment_name
         
         uri = self.model.get_uri(operation, target)
-        data_contract = self.create_curl_data(uri)
+        data_contract = self.create_curl_data(uri, operation)
         self.curl_manager.create_agent(data_contract)
         result, output = self.curl_manager.execute_agent()  
         
@@ -39,7 +39,7 @@ class ApplicationManager(object):
         
         return int(result)
             
-    def create_curl_data(self, uri):
+    def create_curl_data(self, uri, operation):
         data_contract = CurlDataContract()
         data_storage = self.model.data_storage
         data_contract.url = data_storage.adminserver_url + uri
@@ -49,6 +49,7 @@ class ApplicationManager(object):
         data_contract.cookie_jar = data_storage.cookie_path
         data_contract.netrc = data_storage.netrc
         data_contract.ssl_verifypeer = True if not data_storage.test else False
-        data_contract.set_empty_postfield()    
+        if operation != Operation.App.STATUS:
+            data_contract.set_empty_postfield()    
         
         return data_contract

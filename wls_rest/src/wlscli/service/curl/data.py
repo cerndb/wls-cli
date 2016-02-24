@@ -42,8 +42,9 @@ class CurlDataContract(object):
                             "targets": target } )
             
     def set_form_file(self, deployment_name, path, target):
-        self.model = json.dumps({"name": deployment_name, \
-                            "targets": target } )
+        if deployment_name is not None and target is not None:
+            self.model = json.dumps({"name": deployment_name, \
+                                "targets": target } )
         self.form_file = path
         self.http_header = ['X-Requested-By: MyClient','Content-Type: multipart/form-data' , \
                                  'Accept: application/json']

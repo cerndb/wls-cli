@@ -50,13 +50,16 @@ class ServiceManager(object):
         security_service_object.get_data()
     
     def validate_security_data(self):
-        validator = SecurityValidator(self.model.data_storage)
-        validator.validate_security_data()
-        self.model.update(MessageType.INFO, "Authentication succeeded.")
+        self.model.update(MessageType.INFO, "Authentication - validating")
+        self.validator = SecurityValidator(self.model.data_storage)
+        self.validator.validate_security_data()
+        self.model.update(MessageType.INFO, "Authentication - SUCCESS")
             
     def execute_request(self, operation):
         self.service_object = WeblogicServicesFactory(type(operation), self.model)
         #process the request
+        self.model.update(MessageType.INFO, "Operation: '" + \
+                          str(operation) + "'")
         return self.service_object.run(operation)
         
     def handle_authentication_error(self):
@@ -83,7 +86,7 @@ class ServiceManager(object):
             
         elif self.auth_operation == AuthOperation.INTERACTIVE:
             self.display_error_msg("Credentials are invalid.")
-            self.authorise(self.auth_operation)
+            self.authorise(self.auth_operation, False)
             
         else:
             raise Exception("Unrecognized auth operation")

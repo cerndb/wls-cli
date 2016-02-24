@@ -52,4 +52,6 @@ class Controller(object):
         self.view.display(mockup)
         
     def handle_exception(self, exception):
+        self.model.update(MessageType.ERROR, str(exception))
+        self.model.update(MessageType.STATUS_CODE, 1)
         sys.exit(1)

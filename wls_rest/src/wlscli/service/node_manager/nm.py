@@ -40,7 +40,7 @@ class NMAgent(object):
             self.domain_name + " -r " + self.domain_dir + " -s " + self.target + \
             " " + self.operation
         except TypeError:
-            raise Exception ("Some CERN data is missing. " + \
+            raise TypeError ("Some CERN data is missing. " + \
                 "Use '-i ENTITY_NAME except for --url URL.")
         
         proc = subprocess.Popen(bash_command, stdout = subprocess.PIPE, 

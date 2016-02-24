@@ -14,6 +14,7 @@ Created on May 28, 2015
 @author: Konrad Kaczkowski
 '''
 import datetime
+from wlscli.common.utils import bcolors
 
 class ResultParser(object):
     '''
@@ -26,16 +27,6 @@ class ResultParser(object):
     def parse(self, result):
         ''' parse interface '''
         raise NotImplementedError('subclasses must override execute()!')
-        
-    def check_status(self, output):
-        ''' return 0 if communicate was successful, return 1 if not '''
-        try:
-            if "FAILURE" in output or "already" in output or "failed" in output or\
-            "such" in output or "not" in output or \
-	        "FAILURE" in output["messages"][0]["severity"]:
-                return 1
-        except (KeyError, TypeError, IndexError): pass
-        return 0
         
         
 class RESTParser(ResultParser):
@@ -121,12 +112,19 @@ class RESTParser(ResultParser):
     def print_message(self, json_result):
         ''' printing message and its status '''
         for x in json_result["messages"]:
+            x["severity"] = self.add_colors_to_msg(x["severity"])
             print "%s : %s" % (x["message"], x["severity"])
         try:
             for error in json_result["item"]["targets"][0]["errors"]:
                 print "ERROR: "
                 print str(error)
         except (KeyError, TypeError): pass
+        
+    def add_colors_to_msg(self, message):
+        if message == "FAILURE":
+            return bcolors.FAIL + message + bcolors.ENDC
+        elif message == "SUCCESS":
+            return bcolors.OKGREEN + message + bcolors.ENDC
             
     def print_jobs(self, json_result, long, servlets):
         if (long == True):
@@ -278,9 +276,19 @@ class NMParser(ResultParser):
     Result parser class for Node Manager operations
     '''
         
-    def parse(self, nm_result, is_get_domain_data_op):
+    def parse(self, nm_result):
         ''' Prints output and returns result code '''
         print nm_result.rstrip() + "."
         
-        return super(NMParser, self).check_status(nm_result)
+        return self.check_status(nm_result)
+    
+    def check_status(self, output):
+        ''' return 0 if communicate was successful, return 1 if not '''
+        try:
+            if "FAILURE" in output or "already" in output or "failed" in output or\
+            "such" in output or "not" in output or \
+            "FAILURE" in output["messages"][0]["severity"]:
+                return 1
+        except (KeyError, TypeError, IndexError): pass
+        return 0
         

@@ -27,7 +27,7 @@ class Deployments(object):
                        Operation.Deployment.UNDEPLOY_APP: ("application/id/", ""),
                        Operation.Deployment.UNDEPLOY_LIB: ("library/id/", ""),
                        Operation.Deployment.REDEPLOY_LOCAL_APP: ("application/id/", ""),
-                       Operation.Deployment.REDEPLOY_LOCAL_LIB: ("application/id/", ""),
+                       Operation.Deployment.REDEPLOY_LOCAL_LIB: ("library/id/", ""),
                        Operation.Deployment.REDEPLOY_UPLOADED_APP: ("application/id/", ""),
                        Operation.Deployment.REDEPLOY_UPLOADED_LIB: ("library/id/", ""),
                        Operation.App.UPDATE: ("application/id/", "update"),

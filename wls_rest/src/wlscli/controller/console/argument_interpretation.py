@@ -20,7 +20,7 @@ from wlscli.common.utils import RequestType
 from wlscli.common import LoggerWrapper
 from wlscli.common import event
 
-class ArgumentInterpretator(object):
+class ArgumentInterpreter(object):
     '''
     Class responsible for interpretation of parsed request. 
     It is setting proper values to the data wrapper
@@ -29,7 +29,7 @@ class ArgumentInterpretator(object):
         ''' Constructor '''
         self.logger = LoggerWrapper()
         
-    def interpretate_args(self, view_model, args, request):
+    def interpret_args(self, view_model, args, request):
         ''' interpreting args- setting proper data wrapper properties '''
         self.define_target_type(view_model, args)
         event = self.define_request_operation(view_model, request, args)
@@ -212,8 +212,6 @@ class ArgumentInterpretator(object):
         elif 'domain' in args.target_type:
             view_model.target = view_model.adminserver_name
             return event.EventFactory(Operation.Logs.DOMAIN)
-        
-        print "DEBYG: "+str(args.target_type)
         raise Exception("Not recognized logs type.")
         
     def define_show_operation(self, view_model, args):

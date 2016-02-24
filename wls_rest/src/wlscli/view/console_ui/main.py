@@ -19,6 +19,7 @@ from wlscli.common import LoggerWrapper
 from wlscli.common.event import ConsoleUIEvent
 from wlscli.view.console_ui import result_parse
 from wlscli.common.utils import MessageType
+from wlscli.common.utils import bcolors
 
 class ConsoleUI(View):
     '''
@@ -33,6 +34,7 @@ class ConsoleUI(View):
         # put parameters to a queue - controller will receive it
         queue.put(ui_event)
         self.logger_wrapper = LoggerWrapper()
+        self.parser = None
         
     def display(self, mockup):
         ''' Gets output from mockup and sends it to output parser. '''
@@ -40,17 +42,24 @@ class ConsoleUI(View):
         message = mockup.message
         message_type = mockup.message_type
         
+        if mockup.test:
+            return True
+        
         if message_type == MessageType.INFO:
+            message = bcolors.OKBLUE + message + bcolors.ENDC
             self.logger_wrapper.logger.info(message)
         elif message_type == MessageType.DEBUG:
+            message = bcolors.WARNING + message + bcolors.ENDC
             self.logger_wrapper.logger.debug(message)
         elif message_type == MessageType.ERROR:
+            message = bcolors.FAIL + message + bcolors.ENDC
             self.logger_wrapper.logger.error(message)
         elif message_type == MessageType.JSON:
-            parser = result_parse.RESTParser()
-            parser.parse(mockup)
+            self.parser = result_parse.RESTParser()
+            self.parser.parse(mockup)
         elif message_type == MessageType.STATUS_CODE:
-            self.logger_wrapper.logger.info("Status code: "+str(message))
+            message = bcolors.BOLD + "Finished. Status code: "+str(message) + bcolors.ENDC
+            self.logger_wrapper.logger.info(message)
         else:
             raise Exception("Unrecognized message type")
         return True

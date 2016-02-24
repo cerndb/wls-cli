@@ -44,7 +44,6 @@ class CurlAgent(object):
         self.set_optional_opts(data_contract)
 
     def set_compulsory_opts(self, data_contract):
-        
         self.curl_agent.setopt(pycurl.URL, str(data_contract.url))
         self.curl_agent.setopt(pycurl.CAINFO, data_contract.certs)
         self.curl_agent.setopt(pycurl.HTTPHEADER, data_contract.http_header)
@@ -74,13 +73,17 @@ class CurlAgent(object):
             
         if data_contract.delete:
             self.curl_agent.setopt(pycurl.CUSTOMREQUEST, "DELETE") 
-            
         
         try:
             send = [("model", data_contract.model), ('deployment', \
                     (pycurl.FORM_FILE, data_contract.form_file)),]
             self.curl_agent.setopt(pycurl.HTTPPOST, send)   
-        except (KeyError, TypeError): pass
+        except (KeyError, TypeError): 
+            try:
+                send = [('deployment', \
+                    (pycurl.FORM_FILE, data_contract.form_file)),]
+                self.curl_agent.setopt(pycurl.HTTPPOST, send)   
+            except TypeError: pass
         
     def close(self):
         ''' closing pycurl object '''
@@ -108,9 +111,14 @@ class CurlAgent(object):
             dictionary = json.loads(data.getvalue())
             if self.raw:
                 dictionary = json.dumps(dictionary, indent = 4, sort_keys = True)
-        except (ValueError, pycurl.error) as exception:
-            if isinstance(exception, ValueError) and http_code == 401:
+        except ValueError as exception:
+            if http_code == 401:
                 raise AuthenticationError("Unauthorised")
             raise Exception(exception)
+        
+        except pycurl.error as exception:
+            msg = str(exception) if exception[0] != 26 else \
+                str(exception) + ". Please check file path if passed."
+            raise Exception(msg)
         
         return result, dictionary

@@ -48,8 +48,8 @@ if __name__ == '__main__':
 
     loader = unittest.TestLoader()
     suites_list = []
-    test_classes_list(rest_classes_to_run)
     test_classes_list(view_classes_to_run)
+    test_classes_list(rest_classes_to_run)
 
     big_suite = unittest.TestSuite(suites_list)
     runner = unittest.TextTestRunner()

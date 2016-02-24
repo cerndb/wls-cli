@@ -14,7 +14,7 @@ Created on May 28, 2015
 @author: Konrad Kaczkowski
 '''
 
-from wlscli.model.data import DataStorage
+from wlscli.model.application_logic import DataStorage
 from wlscli.common.observer import Observable
 from wlscli.common.utils import Operation
 from wlscli.model import business_logic
@@ -42,6 +42,7 @@ class Model(Observable):
         mockup = Mockup(message_type, message)
         mockup.raw = self.data_storage.raw
         mockup.long_print = self.data_storage.long
+        mockup.test = self.data_storage.test
         super(Model, self).update_observers(mockup)
         
     def get_uri(self, operation, target = None):
